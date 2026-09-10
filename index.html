@@ -192,7 +192,15 @@ function exportSalesExcel(){
  const blob=new Blob([`<html><meta charset="utf-8"><body><h2>MEGERS ACTIVITÉ — Ventes LSD</h2>${t}</body></html>`],{type:'application/vnd.ms-excel'});
  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`Ventes_LSD_${new Date().toISOString().slice(0,10)}.xls`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
 }
-function updateSaleQty(){const f=Number(svfirst.value),l=Number(svlast.value);svqty.value=(Number.isFinite(f)&&Number.isFinite(l)&&l>=f)?(l-f+1):"";}
+function updateSaleQty(){
+  try{
+    const f = BigInt(svfirst.value.trim());
+    const l = BigInt(svlast.value.trim());
+    svqty.value = l >= f ? (l - f + 1n).toString() : "";
+  }catch{
+    svqty.value = "";
+  }
+}
 let scanTarget=null;
 let scanStream=null;
 let scanRAF=null;
