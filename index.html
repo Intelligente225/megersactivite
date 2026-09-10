@@ -104,6 +104,9 @@ function openSale(){
  <label>Quantité (SIM)<input id="svqty" readonly></label>
  <label class="wide">Commentaire<textarea id="svcomment" rows="2" placeholder="Commentaire"></textarea></label>
  </div>
+ <div style="position:sticky;bottom:0;background:#fff;padding:14px 0 4px;border-top:1px solid var(--line);z-index:2">
+   <button class="btn" type="button" style="width:100%;background:var(--primary);color:#fff;font-size:17px;padding:13px" onclick="addSale()">💾 Enregistrer la vente</button>
+ </div>
  <div id="scannerBox" style="display:none;margin-top:12px"><div class="card" style="text-align:center"><div id="scanStatus" class="small">📷 Préparation du scanner…</div><div id="liveScanWrap" style="display:none;position:relative;margin-top:10px"><video id="liveScanVideo" playsinline autoplay muted style="width:100%;max-height:360px;border-radius:12px;background:#111;object-fit:cover"></video><div style="position:absolute;left:8%;right:8%;top:38%;height:24%;border:3px solid #fff;border-radius:14px;box-shadow:0 0 0 9999px rgba(0,0,0,.25);pointer-events:none"></div></div><button id="scanPhotoBtn" class="btn" type="button" style="margin-top:10px;display:none" onclick="document.getElementById('scanFile').click()">📷 Prendre une photo</button><button class="btn" type="button" style="margin-top:10px" onclick="document.getElementById('scanGallery').click()">🖼️ Choisir une photo</button><button class="btn" type="button" style="margin-top:10px" onclick="stopScanner()">Fermer</button><input id="scanFile" type="file" accept="image/*" capture="environment" hidden onchange="scanPhoto(this)"><input id="scanGallery" type="file" accept="image/*" hidden onchange="scanPhoto(this)"></div></div>`;;
  document.getElementById("modal").classList.add("open");
 }
