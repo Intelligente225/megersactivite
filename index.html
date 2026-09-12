@@ -449,7 +449,7 @@ async function shareCallScreen(){if(!peer||!navigator.mediaDevices?.getDisplayMe
 
 function stopCallRing(){if(callRingTimer){clearInterval(callRingTimer);callRingTimer=null;}if(callAudioCtx){try{callAudioCtx.close()}catch(e){}callAudioCtx=null;}}
 function ringCall(){stopCallRing();try{const C=window.AudioContext||window.webkitAudioContext;if(!C)return;callAudioCtx=new C();const beep=()=>{const o=callAudioCtx.createOscillator(),g=callAudioCtx.createGain();o.frequency.value=880;g.gain.value=.08;o.connect(g);g.connect(callAudioCtx.destination);o.start();setTimeout(()=>{try{o.stop()}catch(e){}},450)};beep();callRingTimer=setInterval(beep,1400);}catch(e){console.warn('Sonnerie indisponible',e)}}
-function clearCallMedia(){if(localStream)localStream.getTracks().forEach(t=>t.stop());localStream=null;if(peer){try{peer.close()}catch(e){}}peer=null;callCandidateUnsubs.forEach(fn=>{try{fn()}catch(e){}});callCandidateUnsubs=[];['localCallVideo','remoteCallVideo','remoteCallAudio'].forEach(id=>{const el=document.getElementById(id);if(el){el.srcObject=null;el.style.display='none';}});}
+function clearCallMedia(){if(localStream)localStream.getTracks().forEach(t=>t.stop());localStream=null;if(peer){try{peer.close()}catch(e){}}peer=null;callCandidateUnsubs.forEach(fn=>{try{if(typeof fn==='function')fn()}catch(e){}});callCandidateUnsubs=[];['localCallVideo','remoteCallVideo','remoteCallAudio'].forEach(id=>{const el=document.getElementById(id);if(el){el.srcObject=null;el.style.display='none';}});}
 function ensureRemoteAudio(){
  let audio=document.getElementById('remoteCallAudio');
  if(!audio){
@@ -464,7 +464,7 @@ function ensureRemoteAudio(){
   const panel=document.getElementById('callPanel');
   if(panel)panel.appendChild(audio);else document.body.appendChild(audio);
  }
- audio.autoplay=true;audio.muted=false;audio.volume=1;
+ audio.autoplay=true;audio.muted=false;audio.volume=1;audio.setAttribute('autoplay','');
  return audio;
 }
 async function unlockCallAudio(){
@@ -530,9 +530,11 @@ async function startCall(video){
   if(callDocId)await endCall();
   localStream=await navigator.mediaDevices.getUserMedia({audio:true,video:!!video});
   const lv=document.getElementById('localCallVideo');if(lv){lv.srcObject=localStream;lv.style.display=video?'block':'none';}
-  setupPeer(!!video);localStream.getTracks().forEach(t=>peer.addTrack(t,localStream));
-  callCandidateUnsubs.push(peer.onicecandidate=e=>{if(e.candidate)ref.collection('callerCandidates').add(e.candidate.toJSON()).catch(console.warn)});
   const ref=firestore.collection('lsd_calls').doc();callDocId=ref.id;
+  setupPeer(!!video);
+  // Installer ICE avant toute création de SDP afin de ne perdre aucun candidat.
+  peer.onicecandidate=e=>{if(e.candidate)ref.collection('callerCandidates').add(e.candidate.toJSON()).catch(console.warn)};
+  localStream.getTracks().forEach(t=>peer.addTrack(t,localStream));
   const call={callerUid:user.uid,callerName:chatUserName(user),calleeUid:privateChatUser.uid,calleeName:privateChatUser.name||'',video:!!video,status:'ringing',createdAt:firebase.firestore.FieldValue.serverTimestamp()};
   await ref.set(call);
   const offer=await peer.createOffer();await peer.setLocalDescription(offer);await ref.update({offer:{type:offer.type,sdp:offer.sdp}});
