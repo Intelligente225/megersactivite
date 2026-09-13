@@ -22,7 +22,7 @@ main{max-width:1400px;margin:22px auto;padding:0 18px}.tabs{display:flex;flex-di
 
 .chatbox{display:grid;grid-template-columns:280px 1fr;gap:14px}.chatmessages{height:430px;overflow:auto;background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:12px}.chatmsg{padding:9px 11px;margin:7px 0;border-radius:12px;background:#fff;border:1px solid var(--line);max-width:85%}.chatmsg.me{margin-left:auto;background:#eef4ff}.chatmsg img,.chatmsg video{max-width:100%;border-radius:10px;margin-top:7px}.chatinput{display:flex;gap:8px;margin-top:10px}.chatinput textarea{flex:1;resize:vertical}.callbar{display:flex;gap:8px;flex-wrap:wrap}.sharelist{display:none;flex-direction:column;gap:6px;margin-top:8px;padding:8px;background:#f8fafc;border:1px solid var(--line);border-radius:12px}.sharelist button{display:flex;align-items:center;gap:10px;justify-content:flex-start;text-align:left;width:100%;background:#fff}.sharelist .shareicon{width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;font-size:19px}.callvideo{width:100%;max-height:300px;background:#111;border-radius:12px}.chartwrap{position:relative;width:100%;overflow:auto}.chart{width:100%;height:340px;background:#fff;border:1px solid var(--line);border-radius:12px}.summaryfilters{display:flex;gap:8px;flex-wrap:wrap;align-items:end}.summaryfilters label{display:flex;flex-direction:column;gap:5px;font-size:12px;color:var(--muted)}
 @media(max-width:760px){.chatbox{grid-template-columns:1fr}.chatmessages{height:360px}}
-.summary-card{position:relative}.summary-title{text-align:center;padding:8px 0 14px}.summary-title h1{margin:0;font-size:24px;letter-spacing:.4px;color:var(--text)}.summary-actions{display:flex;justify-content:center;margin:0 0 16px}.summary-actions .btn{font-weight:700;min-width:260px}.summary-card .section{margin-top:18px}.summary-card .section h2{margin-top:0}.summaryfilters{justify-content:center}.summaryfilters label{min-width:170px}.mediaitem{display:flex;align-items:flex-start;gap:8px;margin-top:8px}.mediaicon{font-size:20px;flex:0 0 auto}.mediaitem img,.mediaitem video{max-width:260px;max-height:260px;object-fit:contain;border-radius:10px;background:#111}.mediaitem audio{max-width:100%}.sticker{font-size:42px;line-height:1.2}</style>
+.summary-card{position:relative}.summary-title{text-align:center;padding:8px 0 14px}.summary-title h1{margin:0;font-size:24px;letter-spacing:.4px;color:var(--text)}.summary-actions{display:flex;justify-content:center;margin:0 0 16px}.summary-actions .btn{font-weight:700;min-width:260px}.summary-card .section{margin-top:18px}.summary-card .section h2{margin-top:0}.summaryfilters{justify-content:center}.summaryfilters label{min-width:170px}</style>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-storage-compat.js"></script><script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script><style id="call-enhanced-style">#callPanel{margin-top:10px;padding:14px;border-radius:18px;background:linear-gradient(135deg,#0b3b83,#1769e0);color:#fff;box-shadow:0 10px 30px #0002}#callPanel .callTitle{font-size:18px;font-weight:800}#callPanel .callSub{font-size:13px;opacity:.85;margin-top:4px}#callPanel .callControls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}#callPanel .callControls button{border:0;border-radius:999px;padding:10px 13px;font-weight:800;cursor:pointer;background:#fff;color:#123}#callPanel .callControls button.danger{background:#ffdddd;color:#a00}#callPanel .callControls button.active{background:#ffd166;color:#222}</style>
 <style>
 /* Interface Chat inspirée de la maquette fournie */
@@ -47,34 +47,470 @@ main{max-width:1500px;margin:12px auto;padding:0 24px;}
 .callbar .btn.danger,.callbar button[onclick*="endCall"]{background:#ff4b55;color:#fff;}
 @media(max-width:760px){main{padding:0 10px}.chatbox{grid-template-columns:1fr}.chatmessages{height:360px}.mainmenu .mainitem{flex:1 1 42%;}}
 </style>
-<style id="modern-auth-style">.pro-auth{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at 20% 10%,#347cf0 0,#123b82 42%,#071b3c 100%);font-family:Inter,system-ui,sans-serif}.auth-card{width:min(440px,100%);background:rgba(255,255,255,.98);border:1px solid #ffffff55;border-radius:28px;padding:clamp(24px,5vw,42px);box-shadow:0 25px 80px #0005}.auth-logo{width:64px;height:64px;display:grid;place-items:center;margin:auto;border-radius:20px;background:linear-gradient(135deg,#1769e0,#0b3b83);color:#fff;font-size:32px;font-weight:900}.auth-kicker{text-align:center;color:#1769e0;font-size:11px;font-weight:900;letter-spacing:2px;margin-top:18px}.auth-card h1{text-align:center;margin:8px 0;font-size:clamp(25px,6vw,34px);color:#172033}.auth-sub{text-align:center;color:#667085;margin:0 0 25px;line-height:1.5}.auth-label{display:block;font-weight:750;color:#273449;font-size:14px;margin:14px 0}.auth-label input{display:block;width:100%;margin-top:7px;padding:14px;border:1px solid #d9e1ee;border-radius:13px;background:#f8fafc;font-size:16px}.auth-label input:focus{outline:3px solid #1769e033;border-color:#1769e0}.auth-submit{width:100%;margin-top:10px;padding:15px;border:0;border-radius:13px;background:linear-gradient(135deg,#1769e0,#0f4fae);color:#fff;font-weight:850;font-size:16px;cursor:pointer}.auth-submit span{float:right;font-size:22px}.auth-error{min-height:22px;color:#c62828;text-align:center;margin-top:13px;font-size:13px}.auth-foot{text-align:center;color:#8993a5;font-size:11px;margin-top:18px}@media(max-width:480px){.auth-card{border-radius:22px;padding:25px 20px}} </style><style id="mg-interface-fix">
-:root{--mg-blue:#1769e0;--mg-navy:#08254f;--mg-soft:#eef5ff}
-body{background:linear-gradient(135deg,#edf5ff,#f8fbff)}
-header{background:#fff;color:#10213d;border-bottom:1px solid #e4ebf5;box-shadow:0 4px 18px rgba(23,32,51,.06);padding:14px 24px}
-.head{max-width:1500px;align-items:center}.brand{display:flex;align-items:center;gap:12px;color:#12233e;font-size:26px}.brand:before{content:'MG';display:grid;place-items:center;width:54px;height:54px;border-radius:16px;background:linear-gradient(135deg,#0b4caa,#19a8ff);color:#fff;font-size:22px;font-weight:900;letter-spacing:-2px;box-shadow:0 8px 18px #1769e033}.sub{color:#738197;opacity:1;margin-left:66px;margin-top:-7px}
-.actions .btn{border:1px solid #dce5f1;background:#fff;color:#29435f;border-radius:14px}.actions .btn.light{background:#1769e0;color:#fff;border-color:#1769e0}
-.tabs{position:static;background:transparent;padding:0;gap:10px}.mainmenu{display:flex;gap:10px;flex-wrap:wrap}.mainmenu .mainitem{flex:1 1 170px;min-width:145px;border-radius:14px;box-shadow:0 4px 14px rgba(23,32,51,.05);border:1px solid #e0e8f3}.mainmenu .mainitem.active{background:linear-gradient(135deg,#1769e0,#0f4fae)}.subtabs{display:flex;gap:8px;flex-wrap:wrap;padding:8px;background:#fff;border:1px solid #e2eaf5;border-radius:16px;box-shadow:0 4px 14px rgba(23,32,51,.04)}.subtabs .tab{border:0;background:#f5f8fd;border-radius:11px;color:#39516f}.subtabs .tab.active{background:#1769e0;color:#fff}.subtabs .tab:before{content:'›';margin-right:7px;opacity:.65}.subtabs .tab.active:before{opacity:1}
-@media(max-width:600px){header{padding:12px}.brand{font-size:21px}.brand:before{width:46px;height:46px}.sub{margin-left:58px;font-size:11px}.actions{width:100%}.actions .btn{flex:1 1 auto;font-size:12px;padding:9px 8px}.mainmenu .mainitem{flex:1 1 44%;min-width:0}.subtabs{overflow-x:auto;flex-wrap:nowrap}.subtabs .tab{flex:0 0 auto}}
+<style id="auth-design-only">
+.pro-auth{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at 20% 10%,#347cf0 0,#123b82 42%,#071b3c 100%);font-family:Inter,system-ui,sans-serif}.auth-card{width:min(440px,100%);background:rgba(255,255,255,.98);border:1px solid #ffffff55;border-radius:28px;padding:clamp(24px,5vw,42px);box-shadow:0 25px 80px #0005}.auth-logo{width:64px;height:64px;display:grid;place-items:center;margin:auto;border-radius:20px;background:linear-gradient(135deg,#1769e0,#0b3b83);color:#fff;font-size:32px;font-weight:900}.auth-kicker{text-align:center;color:#1769e0;font-size:11px;font-weight:900;letter-spacing:2px;margin-top:18px}.auth-card h1{text-align:center;margin:8px 0;font-size:clamp(25px,6vw,34px);color:#172033}.auth-sub{text-align:center;color:#667085;margin:0 0 25px;line-height:1.5}.auth-label{display:block;font-weight:750;color:#273449;font-size:14px;margin:14px 0}.auth-label input{display:block;width:100%;margin-top:7px;padding:14px;border:1px solid #d9e1ee;border-radius:13px;background:#f8fafc;font-size:16px}.auth-label input:focus{outline:3px solid #1769e033;border-color:#1769e0}.auth-submit{width:100%;margin-top:10px;padding:15px;border:0;border-radius:13px;background:linear-gradient(135deg,#1769e0,#0f4fae);color:#fff;font-weight:850;font-size:16px;cursor:pointer}.auth-submit span{float:right;font-size:22px}.auth-error{min-height:22px;color:#c62828;text-align:center;margin-top:13px;font-size:13px}.auth-foot{text-align:center;color:#8993a5;font-size:11px;margin-top:18px}@media(max-width:480px){.auth-card{border-radius:22px;padding:25px 20px}} 
 </style>
-<style id="professional-sale-style">
-/* Nouvelle vente professionnelle — conserve toute la logique originale */
-#modal .modalbox{width:min(760px,100%);max-height:92vh;overflow:auto;border:1px solid #dbe5f2;border-radius:24px;padding:0;background:#fff;box-shadow:0 24px 80px rgba(15,50,100,.25)}
-#modal .modalhead{position:sticky;top:0;z-index:4;padding:20px 24px;background:linear-gradient(135deg,#082e68,#1769e0);color:#fff;border-radius:24px 24px 0 0}
-#modal .modalhead h2,#modalTitle{margin:0;font-size:24px;font-weight:850;letter-spacing:.1px}
-#modal .modalhead .close{color:#fff;background:rgba(255,255,255,.14);width:38px;height:38px;border-radius:50%;font-size:25px}
-#modal .modalbox #modalBody{padding:22px 24px 24px;background:linear-gradient(180deg,#f8fbff,#fff)}
-#modal .modalbox #modalBody .formgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-#modal .modalbox #modalBody label{display:flex;flex-direction:column;gap:7px;color:#243957;font-size:13px;font-weight:800}
-#modal .modalbox #modalBody input,#modal .modalbox #modalBody select,#modal .modalbox #modalBody textarea{width:100%;min-height:46px;border:1px solid #d4dfed;border-radius:12px;background:#fff;padding:11px 13px;color:#172033;box-shadow:0 2px 7px rgba(23,32,51,.03)}
-#modal .modalbox #modalBody input:focus,#modal .modalbox #modalBody select:focus,#modal .modalbox #modalBody textarea:focus{outline:3px solid #1769e01f;border-color:#1769e0}
-#modal .modalbox #modalBody .seriesrow{display:flex;align-items:end;gap:8px;padding:12px;border:1px solid #dce7f5;border-radius:15px;background:#eef5ff}
-#modal .modalbox #modalBody .seriesrow label{flex:1}
-#modal .modalbox #modalBody .seriesrow input{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:15px;font-weight:800}
-#modal .modalbox #modalBody .scanicon{min-width:46px;height:46px;background:#1769e0;color:#fff;border:0;border-radius:12px}
-#modal .modalbox #modalBody #svqty{background:#eaf8ef;color:#147a43;font-size:18px;font-weight:900;text-align:center}
-#modal .modalbox #modalBody .scanhelp{font-weight:500}
-#modal .modalbox #modalBody .btn{border-radius:12px}
-@media(max-width:600px){#modal .modalhead{padding:16px 18px}#modal .modalhead h2,#modalTitle{font-size:20px}#modal .modalbox #modalBody{padding:16px}#modal .modalbox #modalBody .formgrid{grid-template-columns:1fr}#modal .modalbox #modalBody .formgrid .wide{grid-column:auto}}
+
+<style id="megers-modern-responsive">
+:root{
+ --blue:#0868e8;--blue2:#063b91;--navy:#071f55;--green:#13b85a;--purple:#7024df;--orange:#f59b13;
+ --bg:#f3f7fd;--card:#fff;--ink:#102a5b;--muted:#667892;--line:#e4ebf5;
+ --shadow:0 10px 28px rgba(20,60,120,.10);--radius:18px;
+}
+html,body{min-height:100%;background:var(--bg)!important}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);overflow-x:hidden}
+#mainApp>header{position:sticky;top:0;z-index:100;height:82px;padding:0 24px;background:rgba(255,255,255,.96)!important;color:var(--ink)!important;border-bottom:1px solid var(--line);box-shadow:0 3px 18px rgba(16,42,91,.08);backdrop-filter:blur(12px)}
+#mainApp>header .head{height:82px;max-width:none;margin:0;gap:20px}
+#mainApp>header .head>div:first-child{min-width:235px}
+#mainApp>header .brand{font-size:24px;font-weight:900;color:var(--blue2);letter-spacing:.2px}
+#mainApp>header .sub{color:var(--muted);opacity:1;font-size:12px;margin-top:2px}
+#mainApp>header .actions{margin-left:auto;align-items:center}
+#mainApp>header .actions .btn{border-radius:11px;padding:9px 12px;font-size:13px}
+#mainApp>header .actions .ghost{background:#f4f7fc;color:var(--navy);border:1px solid var(--line)}
+#mainApp>header .actions .light{background:var(--blue);color:#fff}
+main{max-width:none!important;margin:0!important;padding:24px 24px 36px 286px!important;min-height:calc(100vh - 82px)}
+.tabs{position:fixed!important;left:0;top:82px;bottom:0;width:262px;margin:0!important;padding:22px 14px!important;background:linear-gradient(180deg,#071f55,#062b73)!important;border:0;z-index:90;overflow-y:auto;box-shadow:8px 0 28px rgba(4,25,70,.12)}
+.mainmenu{display:flex!important;flex-direction:column;gap:7px!important;margin:0 0 22px!important}
+.mainmenu .mainitem{width:100%!important;min-width:0!important;flex:none!important;text-align:left!important;padding:13px 15px!important;border:0!important;border-radius:12px!important;background:transparent!important;color:#eaf2ff!important;box-shadow:none!important;font-weight:800!important;font-size:14px}
+.mainmenu .mainitem:hover{background:rgba(255,255,255,.10)!important}
+.mainmenu .mainitem.active{background:linear-gradient(90deg,#0876ff,#1769e0)!important;color:#fff!important;box-shadow:0 8px 18px rgba(0,105,240,.25)!important}
+.subtabs{display:flex!important;flex-direction:column!important;gap:4px!important;margin:0!important;padding-top:16px;border-top:1px solid rgba(255,255,255,.16);overflow:visible!important}
+.subtabs .tab{width:100%;text-align:left;border:0!important;background:transparent!important;color:#d7e5ff!important;padding:10px 14px!important;border-radius:10px!important;font-weight:650!important;font-size:13px}
+.subtabs .tab:hover{background:rgba(255,255,255,.08)!important}
+.subtabs .tab.active{background:rgba(255,255,255,.14)!important;color:#fff!important}
+#app{max-width:1500px;margin:0 auto}
+.card{border:1px solid var(--line)!important;border-radius:var(--radius)!important;box-shadow:var(--shadow)!important;background:rgba(255,255,255,.97)!important}
+.section{margin-top:20px}
+.btn{transition:.18s ease;box-shadow:0 3px 9px rgba(16,42,91,.07)}
+.btn:hover{transform:translateY(-1px)}
+.modern-welcome{display:flex;align-items:center;justify-content:space-between;gap:25px;padding:25px 30px;border-radius:18px;color:#fff;background:linear-gradient(120deg,#063b91 0%,#0b70ee 55%,#1769e0 100%);box-shadow:0 12px 28px rgba(0,86,190,.20);overflow:hidden;position:relative;margin-bottom:18px}
+.modern-welcome:after{content:"";position:absolute;right:-60px;top:-80px;width:330px;height:230px;border-radius:50%;border:2px solid rgba(255,255,255,.13);box-shadow:0 0 0 35px rgba(255,255,255,.05),0 0 0 70px rgba(255,255,255,.035)}
+.modern-welcome h1{margin:2px 0 7px;font-size:31px;line-height:1.08}.modern-welcome p{margin:0;opacity:.9}.modern-welcome .welcome-small{font-size:14px}.modern-welcome .welcome-mark{font-size:55px;opacity:.18;font-weight:900;margin-right:25px;position:relative;z-index:1}
+.action-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+.action-card{display:flex;align-items:center;gap:14px;min-height:120px;padding:20px;border-radius:17px;color:#fff;position:relative;overflow:hidden;box-shadow:0 10px 24px rgba(20,60,120,.14)}
+.action-card:after{content:"";position:absolute;width:130px;height:130px;border-radius:50%;right:-45px;bottom:-65px;background:rgba(255,255,255,.12)}
+.action-card .action-icon{width:58px;height:58px;border-radius:16px;display:grid;place-items:center;font-size:28px;background:rgba(255,255,255,.18);flex:0 0 auto}.action-card h3{margin:0 0 5px;font-size:18px}.action-card p{margin:0;font-size:12px;opacity:.88}.action-card .arrow{margin-left:auto;font-size:24px;position:relative;z-index:2}
+.action-blue{background:linear-gradient(135deg,#0b6bf0,#0876ff)}.action-green{background:linear-gradient(135deg,#12a94d,#18c866)}.action-purple{background:linear-gradient(135deg,#6620d9,#8429f5)}.action-orange{background:linear-gradient(135deg,#ed9200,#ffb21b)}
+.dashboard-layout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(300px,.8fr);gap:18px}
+.dashboard-main,.dashboard-side{min-width:0}
+.quick-card{padding:18px}.quick-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}.quick-title h2{margin:0;font-size:18px}.quick-title .date-pill{padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:#f8fbff;font-size:12px;color:var(--muted)}
+.metric-modern{padding:17px;border-radius:15px;border:1px solid var(--line);background:linear-gradient(180deg,#fff,#f8fbff);min-height:112px}.metric-modern .mi{font-size:12px;color:var(--muted)}.metric-modern .mv{font-size:25px;font-weight:900;margin-top:5px}.metric-modern .mh{font-size:11px;color:var(--muted);margin-top:4px}
+.metrics-modern{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.side-card{padding:18px;margin-bottom:18px}.side-card h2{font-size:17px;margin:0 0 14px}.notice{display:flex;gap:11px;padding:12px 0;border-bottom:1px solid var(--line);font-size:12px}.notice:last-child{border-bottom:0}.notice-icon{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:#eef5ff;flex:none}.notice b{display:block;margin-bottom:2px}.notice span{color:var(--muted)}
+#app .toolbar h2{color:var(--navy)}
+.tablewrap{border-radius:14px!important;border-color:var(--line)!important}.table th{background:#f6f9fd!important;color:#49617f!important}.table td{font-size:13px}.tag{background:#eaf3ff;color:#075dcc}
+.footer{padding:22px 0}
+.modalbox{border-radius:22px!important;box-shadow:0 25px 80px rgba(4,25,70,.28)!important}
+@media(max-width:1050px){main{padding-left:250px!important}.tabs{width:230px}.action-grid{grid-template-columns:repeat(2,1fr)}.dashboard-layout{grid-template-columns:1fr}.metrics-modern{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){
+ #mainApp>header{height:auto;min-height:70px;padding:10px 12px}#mainApp>header .head{height:auto;min-height:50px}#mainApp>header .head>div:first-child{min-width:0}.brand{font-size:18px!important}.sub{font-size:10px!important}.actions{display:none!important}
+ main{padding:12px 10px 82px!important}.tabs{position:static!important;width:auto!important;height:auto!important;max-height:none!important;padding:0!important;margin:0 0 13px!important;background:transparent!important;box-shadow:none!important;overflow:visible!important;border-radius:0}
+ .mainmenu{display:grid!important;grid-template-columns:repeat(3,1fr);gap:7px!important;margin-bottom:9px!important}.mainmenu .mainitem{padding:10px 6px!important;text-align:center!important;background:#fff!important;color:var(--navy)!important;border:1px solid var(--line)!important;font-size:11px!important;box-shadow:0 5px 14px rgba(20,60,120,.06)!important}.mainmenu .mainitem.active{color:#fff!important;background:linear-gradient(135deg,#0b70ee,#0756bf)!important;border-color:#0b70ee!important}
+ .subtabs{display:flex!important;flex-direction:row!important;overflow-x:auto!important;gap:6px!important;padding:0!important;border:0!important}.subtabs .tab{width:auto;white-space:nowrap;background:#fff!important;color:#506681!important;border:1px solid var(--line)!important;padding:8px 10px!important;font-size:11px!important}.subtabs .tab.active{background:#eaf3ff!important;color:#075dcc!important}
+ .modern-welcome{padding:19px 18px;min-height:145px}.modern-welcome h1{font-size:23px}.modern-welcome .welcome-mark{font-size:38px;margin-right:0}.action-grid{grid-template-columns:repeat(2,1fr);gap:9px}.action-card{min-height:105px;padding:13px;gap:10px}.action-card .action-icon{width:45px;height:45px;border-radius:13px;font-size:22px}.action-card h3{font-size:14px}.action-card p{font-size:10px}.action-card .arrow{font-size:18px}
+ .metrics-modern{grid-template-columns:repeat(2,1fr);gap:8px}.metric-modern{min-height:100px;padding:13px}.metric-modern .mv{font-size:21px}.dashboard-layout{gap:10px}.side-card,.quick-card{padding:14px}.quick-title h2{font-size:16px}.tablewrap{overflow-x:auto}.table{min-width:650px}.formgrid{grid-template-columns:1fr!important}.formgrid .wide{grid-column:auto!important}.rowgrid{grid-template-columns:1fr!important}.chatbox{grid-template-columns:1fr!important}.chatmessages{height:360px!important}
+}
+@media(max-width:420px){.mainmenu .mainitem{font-size:10px!important}.action-card{min-height:100px}.action-card p{display:none}.modern-welcome .welcome-mark{display:none}}
+</style>
+
+
+<style id="sale-modal-corrected-style">
+/* Nouvelle vente LSD — design adapté à la maquette */
+#modal.sale-modal-corrected{
+  background:rgba(10,25,50,.48);
+  padding:0;
+  align-items:center;
+  justify-content:center;
+}
+#modal.sale-modal-corrected .modalbox{
+  width:min(610px, calc(100vw - 28px));
+  max-height:min(92vh, 820px);
+  padding:0 !important;
+  overflow:hidden;
+  border-radius:28px !important;
+  background:#f8fbff;
+  border:1px solid rgba(255,255,255,.8);
+  box-shadow:0 30px 90px rgba(0,30,80,.32) !important;
+  display:flex;
+  flex-direction:column;
+}
+#modal.sale-modal-corrected .modalhead{
+  flex:0 0 auto;
+  min-height:88px;
+  padding:20px 24px;
+  color:#fff;
+  background:linear-gradient(135deg,#0b4fb8 0%,#146fe4 55%,#0b5dcc 100%);
+  position:relative;
+  overflow:hidden;
+}
+#modal.sale-modal-corrected .modalhead:after{
+  content:"";
+  position:absolute;
+  width:190px;height:190px;
+  right:-75px;top:-105px;
+  border-radius:50%;
+  background:rgba(255,255,255,.08);
+}
+#modal.sale-modal-corrected .modalhead h3{
+  margin:0;
+  font-size:25px;
+  font-weight:850;
+  position:relative;
+  z-index:1;
+}
+#modal.sale-modal-corrected .close{
+  width:48px;height:48px;
+  border-radius:50%;
+  background:rgba(255,255,255,.18);
+  color:#fff;
+  font-size:32px;
+  line-height:1;
+  position:relative;
+  z-index:2;
+  transition:.2s;
+}
+#modal.sale-modal-corrected .close:hover{background:rgba(255,255,255,.28)}
+#modal.sale-modal-corrected #modalBody{
+  min-height:0;
+  overflow-y:auto;
+  padding:24px 26px 18px;
+  scrollbar-width:thin;
+  background:linear-gradient(#fbfdff,#f5f9ff);
+}
+#modal.sale-modal-corrected .sale-form-corrected{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+#modal.sale-modal-corrected .sale-field{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin:0;
+  color:#132744;
+  font-size:16px;
+  font-weight:800;
+}
+#modal.sale-modal-corrected .sale-field input,
+#modal.sale-modal-corrected .sale-field select,
+#modal.sale-modal-corrected .sale-field textarea{
+  width:100%;
+  box-sizing:border-box;
+  min-height:58px;
+  padding:14px 17px;
+  border:1.5px solid #dce5ef;
+  border-radius:18px;
+  background:#fff;
+  color:#14223a;
+  font-size:17px;
+  font-weight:650;
+  outline:none;
+  box-shadow:0 3px 10px rgba(20,55,100,.035);
+}
+#modal.sale-modal-corrected .sale-field input::placeholder,
+#modal.sale-modal-corrected .sale-field textarea::placeholder{color:#8b929d;font-weight:600}
+#modal.sale-modal-corrected .sale-field input:focus,
+#modal.sale-modal-corrected .sale-field select:focus,
+#modal.sale-modal-corrected .sale-field textarea:focus{
+  border-color:#2676df;
+  box-shadow:0 0 0 4px rgba(38,118,223,.10);
+}
+#modal.sale-modal-corrected .sale-field textarea{
+  min-height:88px;
+  resize:vertical;
+}
+#modal.sale-modal-corrected .sale-series{
+  padding:17px;
+  border-radius:20px;
+  background:#edf5ff;
+  border:1px solid #d9e8fb;
+}
+#modal.sale-modal-corrected .sale-series .sale-field{gap:8px}
+#modal.sale-modal-corrected .series-control{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 54px;
+  gap:9px;
+  align-items:center;
+}
+#modal.sale-modal-corrected .series-control input{min-width:0}
+#modal.sale-modal-corrected .scanicon{
+  width:54px;height:54px;
+  border:0;
+  border-radius:16px;
+  background:linear-gradient(135deg,#1477ed,#0757c6);
+  color:#fff;
+  font-size:22px;
+  cursor:pointer;
+  box-shadow:0 7px 18px rgba(7,87,198,.22);
+}
+#modal.sale-modal-corrected .scanhelp{
+  color:#718096;
+  font-size:12px;
+  font-weight:600;
+}
+#modal.sale-modal-corrected .quantity-field input{
+  background:#eef7ff;
+  border-color:#cfe2fa;
+  color:#075dcc;
+  font-size:20px;
+  font-weight:850;
+}
+#modal.sale-modal-corrected .sale-savebar{
+  flex:0 0 auto;
+  padding:12px 18px 18px;
+  background:rgba(255,255,255,.98);
+  border-top:1px solid #e4eaf2;
+  box-shadow:0 -7px 20px rgba(25,55,95,.07);
+}
+#modal.sale-modal-corrected .sale-save{
+  width:100%;
+  min-height:58px;
+  border:0;
+  border-radius:18px;
+  background:linear-gradient(135deg,#1976e8,#0b61d4);
+  color:#fff;
+  font-size:19px;
+  font-weight:850;
+  cursor:pointer;
+  box-shadow:0 9px 22px rgba(20,105,220,.25);
+}
+#modal.sale-modal-corrected .sale-save:active{transform:translateY(1px)}
+#modal.sale-modal-corrected #scannerBox{
+  margin-top:2px !important;
+}
+@media(max-width:560px){
+  #modal.sale-modal-corrected{
+    padding:0;
+    align-items:flex-end;
+  }
+  #modal.sale-modal-corrected .modalbox{
+    width:100%;
+    max-width:none;
+    height:min(94vh,900px);
+    max-height:94vh;
+    border-radius:28px 28px 0 0 !important;
+  }
+  #modal.sale-modal-corrected .modalhead{
+    min-height:76px;
+    padding:16px 18px;
+  }
+  #modal.sale-modal-corrected .modalhead h3{font-size:23px}
+  #modal.sale-modal-corrected .close{width:44px;height:44px;font-size:29px}
+  #modal.sale-modal-corrected #modalBody{padding:20px 18px 14px}
+  #modal.sale-modal-corrected .sale-form-corrected{gap:14px}
+  #modal.sale-modal-corrected .sale-field{font-size:15px}
+  #modal.sale-modal-corrected .sale-field input,
+  #modal.sale-modal-corrected .sale-field select,
+  #modal.sale-modal-corrected .sale-field textarea{
+    min-height:56px;
+    font-size:16px;
+    border-radius:17px;
+  }
+  #modal.sale-modal-corrected .sale-series{padding:14px;border-radius:18px}
+  #modal.sale-modal-corrected .sale-savebar{padding:10px 14px 14px}
+  #modal.sale-modal-corrected .sale-save{min-height:58px;font-size:18px}
+}
+</style>
+
+
+<style id="sale-buttons-visibility-fix">
+#modal.sale-modal-corrected .modalbox{
+  max-height:92vh !important;
+}
+#modal.sale-modal-corrected #modalBody{
+  overflow-y:auto !important;
+  padding-bottom:24px !important;
+}
+#modal.sale-modal-corrected .sale-savebar{
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  position:relative !important;
+  z-index:50 !important;
+}
+#modal.sale-modal-corrected .sale-save{
+  display:flex !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+#modal.sale-modal-corrected .modalhead .close{
+  display:flex !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+@media(max-width:560px){
+  #modal.sale-modal-corrected .modalbox{
+    height:92vh !important;
+    max-height:92vh !important;
+  }
+  #modal.sale-modal-corrected #modalBody{
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    overflow-y:auto !important;
+  }
+  #modal.sale-modal-corrected .sale-savebar{
+    flex:0 0 auto !important;
+    min-height:78px !important;
+  }
+}
+</style>
+
+
+<style id="chat-maquette-final">
+/* Chat LSD — adaptation de la maquette fournie, sans toucher au reste de l'application */
+.meg-chat-shell{width:100%;}
+.meg-chat-card{display:grid;grid-template-columns:330px minmax(0,1fr);height:calc(100vh - 205px);min-height:620px;background:#f7fbff;border:1px solid #dce8f6;border-radius:22px;overflow:hidden;box-shadow:0 12px 40px rgba(20,70,130,.10);}
+.meg-chat-sidebar{background:#f7fbff;border-right:1px solid #dce8f6;padding:18px 12px 14px;display:flex;flex-direction:column;min-width:0;}
+.meg-chat-search{height:48px;border:1px solid #d8e4f2;background:#fff;border-radius:14px;display:flex;align-items:center;padding:0 13px;gap:9px;box-shadow:0 4px 12px rgba(40,80,130,.05);}
+.meg-chat-search span{font-size:28px;line-height:1;color:#355b88;transform:rotate(-20deg);}
+.meg-chat-search input{border:0!important;outline:0!important;background:transparent!important;width:100%;font-size:14px;padding:0!important;}
+.meg-chat-side-title{font-size:14px;font-weight:900;color:#213b61;margin:18px 8px 9px;}
+.meg-chat-contacts{overflow:auto;flex:1;min-height:120px;padding-right:3px;}
+.meg-contact{width:100%;border:0;background:transparent;display:flex;align-items:center;gap:10px;text-align:left;padding:10px 9px;border-radius:14px;cursor:pointer;color:#203754;}
+.meg-contact:hover{background:#eaf3ff;}
+.meg-contact.active{background:linear-gradient(135deg,#1675ef,#0b62d8);color:#fff;box-shadow:0 6px 16px rgba(13,101,222,.20);}
+.meg-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(145deg,#d7e8ff,#8dbaf1);display:grid;place-items:center;font-weight:900;color:#124f9b;flex:none;overflow:hidden;}
+.meg-contact .meg-avatar{width:43px;height:43px;font-size:15px;}
+.meg-contact-name{font-weight:850;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.meg-contact-status{font-size:11px;opacity:.75;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.meg-contact-time{margin-left:auto;font-size:10px;opacity:.75;align-self:flex-start;padding-top:3px;}
+.meg-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#20c779;margin-right:5px;}
+.meg-call-panel{background:linear-gradient(145deg,#0865e7,#177ef2);color:#fff;border-radius:17px;padding:13px;margin-top:12px;box-shadow:0 8px 20px rgba(15,105,226,.22);}
+.meg-call-title{font-weight:900;font-size:14px}.meg-call-sub{font-size:10px;opacity:.88;margin:3px 0 9px}.meg-call-mini{font-size:11px;margin-bottom:9px;opacity:.92;}
+.meg-call-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.meg-call-grid button{border:0;background:#fff;color:#1260bb;border-radius:18px;padding:9px 5px;font-weight:800;font-size:11px;cursor:pointer;}
+.meg-hangup{width:100%;border:0;background:#ff4d55;color:#fff;border-radius:18px;padding:9px;margin-top:8px;font-weight:900;cursor:pointer;}
+.meg-chat-main{display:flex;flex-direction:column;min-width:0;background:#fbfdff;position:relative;}
+.meg-chat-head{height:88px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:#fff;border-bottom:1px solid #e2ebf5;position:relative;}
+.meg-chat-person{display:flex;align-items:center;gap:11px;min-width:0}.meg-chat-person #chatActiveName{font-size:18px;font-weight:900;color:#1d3555;}.meg-chat-person #chatActiveStatus{font-size:12px;color:#647991;margin-top:4px;}
+.meg-chat-head-actions{display:flex;gap:10px}.meg-chat-head-actions button{width:52px;height:52px;border:0;border-radius:15px;background:#0d6ee9;color:#fff;font-size:21px;font-weight:900;cursor:pointer;box-shadow:0 5px 12px rgba(13,110,233,.18);}.meg-chat-head-actions button:last-child{background:#fff;color:#315274;border:1px solid #d8e4f0;box-shadow:none;font-size:18px;}
+.meg-chat-menu{display:none;position:absolute;right:18px;top:78px;z-index:8;background:#fff;border:1px solid #dbe6f2;border-radius:14px;padding:7px;box-shadow:0 15px 35px rgba(20,50,90,.18);width:210px;}
+.meg-chat-menu button{width:100%;border:0;background:#fff;text-align:left;padding:9px 10px;border-radius:9px;cursor:pointer;color:#203754;font-weight:700}.meg-chat-menu button:hover{background:#edf5ff;}
+.meg-chat-messages{flex:1;min-height:0;overflow:auto;padding:22px 28px;background:#f8fbff;}
+.meg-chat-messages .empty{margin-top:60px;}
+.meg-chat-messages .chatmsg{max-width:66%;padding:11px 15px;margin:10px 0;border:0;border-radius:18px;background:#edf3fa;color:#203754;box-shadow:none;}
+.meg-chat-messages .chatmsg.me{margin-left:auto;background:#1675ef;color:#fff;border-radius:18px 18px 5px 18px;}.meg-chat-messages .chatmsg:not(.me){border-radius:18px 18px 18px 5px;}.meg-chat-messages .chatmsg .small{color:inherit;opacity:.65;margin-top:5px;font-size:10px;}.meg-chat-messages .chatmsg img,.meg-chat-messages .chatmsg video{max-width:100%;border-radius:12px;}
+.meg-chat-composer{margin:0 14px 10px;padding:7px 8px 7px 12px;display:flex;align-items:center;gap:6px;background:#fff;border:1px solid #dce6f0;border-radius:18px;box-shadow:0 4px 14px rgba(30,70,120,.06);}
+.meg-chat-composer textarea{flex:1;min-width:0;border:0!important;outline:0!important;background:transparent!important;resize:none;padding:10px 7px!important;min-height:38px!important;max-height:90px;}
+.composer-icon{width:38px;height:38px;border:0;background:transparent;color:#526b87;border-radius:50%;font-size:20px;cursor:pointer;flex:none}.composer-icon:hover{background:#edf5ff;color:#0b68dc;}
+.meg-send{width:48px;height:48px;border:0;border-radius:50%;background:#0c70e9;color:#fff;font-size:22px;cursor:pointer;flex:none;box-shadow:0 5px 13px rgba(12,112,233,.22);}
+.meg-chat-tools{display:flex;gap:7px;flex-wrap:wrap;padding:0 15px 12px;}.meg-chat-tools button{border:1px solid #d7e3f0;background:#fff;color:#295276;border-radius:12px;padding:7px 10px;font-size:11px;font-weight:800;cursor:pointer;}.meg-chat-tools button:hover{border-color:#8bbbf4;color:#0d68db;background:#f2f8ff;}
+.meg-hidden-call-elements{display:none!important;}
+@media(max-width:900px){.meg-chat-card{grid-template-columns:270px minmax(0,1fr);height:calc(100vh - 180px);min-height:560px}.meg-chat-head-actions{gap:5px}.meg-chat-head-actions button{width:44px;height:44px}.meg-chat-messages{padding:18px}.meg-chat-messages .chatmsg{max-width:78%;}}
+@media(max-width:760px){.meg-chat-card{display:flex;flex-direction:column;height:auto;min-height:0;border-radius:16px}.meg-chat-sidebar{border-right:0;border-bottom:1px solid #dce8f6;padding:10px;max-height:300px}.meg-chat-contacts{max-height:125px}.meg-call-panel{display:none}.meg-chat-head{height:72px;padding:10px}.meg-chat-person #chatActiveName{font-size:16px}.meg-chat-head-actions button{width:38px;height:38px;border-radius:11px;font-size:16px}.meg-chat-messages{height:430px;flex:none}.meg-chat-composer{margin:8px}.meg-chat-tools{padding-bottom:10px;overflow:auto;flex-wrap:nowrap}.meg-chat-tools button{white-space:nowrap;}.meg-chat-messages .chatmsg{max-width:86%;}}
+<style id="chat-fixes-v2">
+/* Corrections Chat : navigation basse + appel visible + icônes */
+.meg-chat-card{overflow:hidden;}
+.meg-chat-main{min-height:0;}
+.meg-chat-messages{min-height:140px;}
+.meg-chat-tools{flex:0 0 auto;align-items:center;min-height:46px;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;}
+.meg-chat-tools button{white-space:nowrap;}
+.meg-chat-nav{display:flex;gap:8px;padding:8px 14px 10px;background:#f7fbff;border-top:1px solid #dce6f0;flex:0 0 auto;}
+.meg-chat-nav button{flex:1;border:1px solid #d7e3f0;background:#fff;color:#24496f;border-radius:12px;padding:9px 8px;font-size:11px;font-weight:850;cursor:pointer;white-space:nowrap;}
+.meg-chat-nav button.active,.meg-chat-nav button:hover{background:#eaf4ff;border-color:#9fc7f6;color:#0b68dc;}
+.meg-call-overlay{display:none;position:fixed;inset:0;background:rgba(3,18,45,.72);z-index:1000;align-items:center;justify-content:center;padding:22px;}
+.meg-call-overlay.open{display:flex;}
+.meg-call-window{width:min(900px,96vw);height:min(720px,92vh);background:#f7fbff;border-radius:22px;overflow:hidden;box-shadow:0 25px 80px rgba(0,0,0,.35);display:flex;flex-direction:column;}
+.meg-call-window-head{height:64px;flex:0 0 64px;background:#fff;border-bottom:1px solid #dce6f0;display:flex;align-items:center;justify-content:space-between;padding:0 16px;}
+.meg-call-window-title{font-weight:900;color:#1d3555;}
+.meg-call-close{width:42px;height:42px;border:1px solid #d5e1ee;background:#fff;border-radius:50%;font-size:24px;color:#24496f;cursor:pointer;}
+.meg-call-stage{position:relative;flex:1;min-height:0;background:#101a29;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.meg-call-remote{width:100%;height:100%;object-fit:contain;background:#101a29;}
+.meg-call-local{position:absolute;right:18px;top:18px;width:190px;height:135px;object-fit:cover;background:#1d2a3c;border:2px solid #fff;border-radius:14px;box-shadow:0 8px 25px rgba(0,0,0,.35);}
+.meg-call-avatar{position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:52px;font-weight:900;}
+.meg-call-status{position:absolute;left:18px;bottom:18px;background:rgba(0,0,0,.55);color:#fff;border-radius:12px;padding:8px 12px;font-size:12px;}
+.meg-call-controls{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;padding:12px;background:#fff;border-top:1px solid #dce6f0;}
+.meg-call-controls button{border:1px solid #d5e1ee;background:#f7fbff;color:#24496f;border-radius:12px;padding:9px 12px;font-weight:800;cursor:pointer;}
+.meg-call-controls .danger{background:#ff4d55;color:#fff;border-color:#ff4d55;}
+@media(max-width:760px){.meg-chat-nav{padding:7px 8px}.meg-chat-nav button{font-size:10px;padding:8px 5px}.meg-call-overlay{padding:0}.meg-call-window{width:100vw;height:100vh;border-radius:0}.meg-call-window-head{height:58px;flex-basis:58px}.meg-call-local{width:125px;height:95px;right:10px;top:10px}.meg-call-controls{gap:6px;padding:9px}.meg-call-controls button{padding:8px 9px;font-size:11px;}}
+</style>
+<style id="sale-pc-position-fix">
+/* Positionnement professionnel de la fenêtre Nouvelle vente sur ordinateur */
+@media(min-width:561px){
+  #modal.sale-modal-corrected{
+    align-items:center !important;
+    justify-content:center !important;
+    padding:24px !important;
+  }
+  #modal.sale-modal-corrected .modalbox{
+    width:min(820px, calc(100vw - 48px)) !important;
+    max-width:820px !important;
+    height:min(88vh, 820px) !important;
+    max-height:88vh !important;
+    padding:0 !important;
+    display:flex !important;
+    flex-direction:column !important;
+    overflow:hidden !important;
+    margin:auto !important;
+  }
+  #modal.sale-modal-corrected .modalhead{
+    flex:0 0 auto !important;
+    min-height:72px !important;
+    padding:18px 24px !important;
+    border-bottom:1px solid #e4eaf2 !important;
+    background:#fff !important;
+  }
+  #modal.sale-modal-corrected #modalBody{
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+    padding:22px 24px 18px !important;
+  }
+  #modal.sale-modal-corrected .sale-savebar{
+    position:sticky !important;
+    bottom:0 !important;
+    z-index:100 !important;
+    margin:0 -24px -18px !important;
+    padding:14px 24px 18px !important;
+  }
+  #modal.sale-modal-corrected .sale-save{
+    max-width:100% !important;
+  }
+}
+</style>
+
+<style id="close-button-final-fix">
+/* Bouton Fermer — toujours visible sur PC et mobile */
+#modal.sale-modal-corrected .modalhead .close{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:46px !important;
+  height:46px !important;
+  min-width:46px !important;
+  padding:0 !important;
+  margin-left:auto !important;
+  border:2px solid rgba(7,92,204,.18) !important;
+  border-radius:50% !important;
+  background:#eef5ff !important;
+  color:#075dcc !important;
+  font-size:30px !important;
+  line-height:1 !important;
+  font-weight:700 !important;
+  opacity:1 !important;
+  visibility:visible !important;
+  position:relative !important;
+  z-index:9999 !important;
+  cursor:pointer !important;
+  flex-shrink:0 !important;
+}
+#modal.sale-modal-corrected .modalhead .close:hover{
+  background:#dcecff !important;
+  color:#043f91 !important;
+}
+@media(min-width:561px){
+  #modal.sale-modal-corrected .modalhead{
+    background:#fff !important;
+    color:#0b3f82 !important;
+    min-height:72px !important;
+    overflow:visible !important;
+  }
+  #modal.sale-modal-corrected .modalhead h3{color:#0b3f82 !important;}
+}
 </style>
 </head>
 <body>
@@ -91,7 +527,7 @@ header{background:#fff;color:#10213d;border-bottom:1px solid #e4ebf5;box-shadow:
   </div>
 </div>
 <div id="mainApp"><header><div class="head">
-<div><div class="brand">MEGERS <span style="color:#1769e0">ACTIVITÉ</span></div><div class="sub">Ets Megers · LSD Meschac Diambuana</div></div>
+<div><div class="brand">📊 MEGERS ACTIVITÉ</div><div class="sub">Ets Megers · LSD Meschac Diambuana</div></div>
 <div class="actions"><button class="btn ghost" onclick="window.print()">🖨 Imprimer</button><button class="btn light" onclick="exportData()">⬇ Sauvegarder</button><button class="btn ghost" onclick="document.getElementById('file').click()">⬆ Restaurer</button><button class="btn ghost" onclick="doLogout()">Déconnexion</button><input id="file" type="file" accept=".json" hidden onchange="importData(event)"></div>
 </div></header>
 <main>
@@ -237,23 +673,44 @@ function render(){
 function metric(label,value,hint=""){return `<div class="card metric"><div class="label">${label}</div><div class="value">${value}</div><div class="hint">${hint}</div></div>`}
 function dashboard(){
  const d=total(db.debts), l=total(db.deliveries), s=Number(db.pending||0)-l, ops=total(db.operations);
+ const sales=(db.sales||[]).length;
+ const today=new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric'});
  document.getElementById("app").innerHTML=`
- <div class="grid">
- ${metric("Stock restant",s+" SIM","Pending − SIM à livrer")}
- ${metric("Dettes",d+" SIM",db.debts.length+" personne(s)")}
- ${metric("À livrer",l+" SIM",db.deliveries.length+" commande(s)")}
- ${metric("Opérations",ops+" SIM",db.operations.length+" opération(s)")} ${metric("Différence",money(Number(db.capital||0)-(s*Number(db.unitPrice||0))-(d*Number(db.unitPrice||0))-Number(db.merchant1Amount||0)),"Capital déclaré − stock − dette − marchand 1")}
- </div>
- <div class="rowgrid section">
-  <div class="card"><h2>Résumé financier</h2>
-   <p>Capital déclaré : <b>${money(Number(db.capital||0))}</b></p>
-   <p>Valeur stock restant : <b>${money(s*Number(db.unitPrice||0))}</b></p>
-   <p>Valeur dette : <b>${money(d*Number(db.unitPrice||0))}</b></p>
-   <p>Valeur marchand 1 : <b>${money(Number(db.merchant1Amount||0))}</b></p>
-   <p>Différence : <b>${money(Number(db.capital||0)-(s*Number(db.unitPrice||0))-(d*Number(db.unitPrice||0))-Number(db.merchant1Amount||0))}</b></p>
-   <p>SIM à livrer : <b>${l} SIM</b></p>
+ <section class="modern-welcome"><div><div class="welcome-small">Bonjour,</div><h1>Bienvenue sur MEGERS ACTIVITÉ</h1><p>Votre partenaire pour une gestion simple, rapide et sécurisée.</p></div><div class="welcome-mark">MG</div></section>
+ <section class="action-grid">
+  <div class="action-card action-blue" onclick="window.print()" style="cursor:pointer"><div class="action-icon">🖨️</div><div><h3>Imprimer</h3><p>Imprimer vos documents</p></div><div class="arrow">→</div></div>
+  <div class="action-card action-green" onclick="exportData()" style="cursor:pointer"><div class="action-icon">☁️</div><div><h3>Sauvegarder</h3><p>Sauvegarder vos données</p></div><div class="arrow">→</div></div>
+  <div class="action-card action-purple" onclick="document.getElementById('file').click()" style="cursor:pointer"><div class="action-icon">☁️</div><div><h3>Restaurer</h3><p>Restaurer vos données</p></div><div class="arrow">→</div></div>
+  <div class="action-card action-orange" onclick="doLogout()" style="cursor:pointer"><div class="action-icon">↪</div><div><h3>Déconnexion</h3><p>Quitter la session</p></div><div class="arrow">→</div></div>
+ </section>
+ <div class="dashboard-layout">
+  <div class="dashboard-main">
+   <div class="card quick-card">
+    <div class="quick-title"><h2>📊 Aperçu de votre activité</h2><div class="date-pill">📅 Aujourd'hui · ${today}</div></div>
+    <div class="metrics-modern">
+     <div class="metric-modern"><div class="mi">🛒 Ventes LSD</div><div class="mv">${sales}</div><div class="mh">Transaction(s)</div></div>
+     <div class="metric-modern"><div class="mi">💵 Solde USD</div><div class="mv">${usd(Number(db.usdCapital||0))}</div><div class="mh">Solde actuel</div></div>
+     <div class="metric-modern"><div class="mi">🟣 Stock LSD</div><div class="mv">${s}</div><div class="mh">SIM disponible(s)</div></div>
+     <div class="metric-modern"><div class="mi">📈 Chiffre d'affaires</div><div class="mv">${money(ops*Number(db.unitPrice||0))}</div><div class="mh">Total calculé</div></div>
+    </div>
+   </div>
+   <div class="card section quick-card"><div class="quick-title"><h2>🗓️ Dernières transactions</h2><button class="btn" style="background:#eaf3ff;color:#075dcc;border:1px solid #d4e5ff" onclick="tab='salesHome';render()">Voir les ventes →</button></div>
+    ${db.operations.length?`<div class="tablewrap"><table class="table"><thead><tr><th>Date</th><th>Type</th><th>Description</th><th class="num">Montant</th></tr></thead><tbody>${db.operations.slice(-6).reverse().map(o=>`<tr><td>${esc(o.date)}</td><td><span class="tag">${esc(o.type)}</span></td><td>${esc(o.note)}</td><td class="num">${o.amount} SIM</td></tr>`).join("")}</tbody></table></div>`:`<div class="empty">Aucune transaction enregistrée pour le moment.</div>`}
+   </div>
   </div>
-  <div class="card"><h2>Activité récente</h2>${db.operations.length?`<table class="table"><thead><tr><th>Date</th><th>Type</th><th>Description</th><th class="num">Montant</th></tr></thead><tbody>${db.operations.slice(-6).reverse().map(o=>`<tr><td>${esc(o.date)}</td><td><span class="tag">${esc(o.type)}</span></td><td>${esc(o.note)}</td><td class="num">${o.amount} SIM</td></tr>`).join("")}</tbody></table>`:`<div class="empty">Aucune opération enregistrée.</div>`}</div>
+  <aside class="dashboard-side">
+   <div class="card side-card"><h2>🔔 Notifications</h2>
+    <div class="notice"><div class="notice-icon">✓</div><div><b>Sauvegarde active</b><span>Les données sont conservées automatiquement.</span></div></div>
+    <div class="notice"><div class="notice-icon">📦</div><div><b>Stock restant</b><span>${s} SIM disponibles.</span></div></div>
+    <div class="notice"><div class="notice-icon">💰</div><div><b>Dettes</b><span>${d} SIM sur ${db.debts.length} personne(s).</span></div></div>
+    <div class="notice"><div class="notice-icon">🚚</div><div><b>À livrer</b><span>${l} SIM en attente.</span></div></div>
+   </div>
+   <div class="card side-card"><h2>⚡ Accès rapide</h2>
+    <button class="btn" style="width:100%;margin-bottom:8px;background:#eaf3ff;color:#075dcc" onclick="mainTab='sales';tab='salesHome';render()">🛒 Nouvelle vente LSD</button>
+    <button class="btn" style="width:100%;margin-bottom:8px;background:#eafbf2;color:#087b3f" onclick="mainTab='gestion';tab='stock';render()">📦 Gérer le stock</button>
+    <button class="btn" style="width:100%;background:#f4edff;color:#6820c8" onclick="mainTab='usd';tab='usdHome';render()">💵 Ouvrir le compte USD</button>
+   </div>
+  </aside>
  </div>`;
 }
 function salesPage(){
@@ -342,16 +799,109 @@ function generateSalesPDF(){try{const doc=buildSalesPDF();const d=salesSummaryDa
 async function generateAndShareSalesPDF(){try{const doc=buildSalesPDF(),d=salesSummaryData(),blob=doc.output('blob'),name=`Resume_Vente_LSD_${d.from||'debut'}_${d.to||'fin'}.pdf`,file=new File([blob],name,{type:'application/pdf'});if(navigator.share&&(!navigator.canShare||navigator.canShare({files:[file]}))){await navigator.share({title:'Résumé de vente LSD',text:`Résumé de vente LSD — ${d.totalQty} SIM — ${d.people.length} SV`,files:[file]});}else{doc.save(name);alert('Le PDF a été généré. Le partage de fichier PDF n’est pas disponible sur cet appareil, il a donc été enregistré.');}}catch(e){if(e?.name!=='AbortError')alert(e.message||'Impossible de générer ou partager le PDF.');}}
 function salesStatsPage(){document.getElementById('app').innerHTML=`<div class="card"><div class="toolbar"><div><h2>📈 Statistiques des ventes</h2><div class="small">Représentation graphique des ventes journalières, mensuelles et annuelles.</div></div><select id="statMode" class="search" onchange="drawSalesChart(this.value)"><option value="daily">Journalier</option><option value="monthly">Mensuel</option><option value="yearly">Annuel</option></select></div><div class="grid" id="statMetrics"></div><div class="chartwrap"><canvas id="salesChart" class="chart"></canvas></div></div>`;drawSalesChart('daily')}
 function drawSalesChart(mode){const rows=db.sales||[],now=new Date();const map={};if(mode==='daily'){for(let i=29;i>=0;i--){const d=new Date(now);d.setDate(now.getDate()-i);map[d.toISOString().slice(0,10)]=0}rows.forEach(x=>{if(map[x.date]!==undefined)map[x.date]+=Number(x.quantity||0)})}else if(mode==='monthly'){for(let i=11;i>=0;i--){const d=new Date(now.getFullYear(),now.getMonth()-i,1),k=d.toISOString().slice(0,7);map[k]=0}rows.forEach(x=>{const k=String(x.date||'').slice(0,7);if(map[k]!==undefined)map[k]+=Number(x.quantity||0)})}else{for(let y=now.getFullYear()-4;y<=now.getFullYear();y++)map[String(y)]=0;rows.forEach(x=>{const k=String(x.date||'').slice(0,4);if(map[k]!==undefined)map[k]+=Number(x.quantity||0)})}const labels=Object.keys(map),vals=Object.values(map),canvas=document.getElementById('salesChart');if(!canvas)return;const w=canvas.clientWidth||800,h=340,dpr=window.devicePixelRatio||1;canvas.width=w*dpr;canvas.height=h*dpr;const c=canvas.getContext('2d');c.scale(dpr,dpr);c.clearRect(0,0,w,h);const pad={l:45,r:20,t:25,b:55},cw=w-pad.l-pad.r,ch=h-pad.t-pad.b,max=Math.max(1,...vals),stepX=labels.length>1?cw/(labels.length-1):cw;c.strokeStyle='#d8deea';c.fillStyle='#6b7280';c.font='11px Arial';for(let i=0;i<=5;i++){const y=pad.t+ch-i*ch/5;c.beginPath();c.moveTo(pad.l,y);c.lineTo(w-pad.r,y);c.stroke();c.fillText(Math.round(max*i/5),5,y+4)}c.strokeStyle='#1769e0';c.lineWidth=3;c.beginPath();vals.forEach((v,i)=>{const x=pad.l+i*stepX,y=pad.t+ch-(v/max)*ch;i?c.lineTo(x,y):c.moveTo(x,y)});c.stroke();c.fillStyle='#1769e0';vals.forEach((v,i)=>{const x=pad.l+i*stepX,y=pad.t+ch-(v/max)*ch;c.beginPath();c.arc(x,y,4,0,Math.PI*2);c.fill()});c.fillStyle='#172033';c.font='10px Arial';labels.forEach((lab,i)=>{if(labels.length>18&&i%3!==0)return;const x=pad.l+i*stepX;c.save();c.translate(x,h-8);c.rotate(-Math.PI/5);c.fillText(lab,0,0);c.restore()});const total=vals.reduce((a,b)=>a+b,0);const peak=Math.max(...vals,0);document.getElementById('statMetrics').innerHTML=`${metric('Total période',total+' SIM',mode==='daily'?'30 derniers jours':mode==='monthly'?'12 derniers mois':'5 dernières années')}${metric('Moyenne',Math.round(total/(vals.length||1))+' SIM','Par période')}${metric('Pic',peak+' SIM','Meilleure période')}${metric('Ventes enregistrées',rows.length,'Transactions')}`}
-function salesChatPage(){document.getElementById('app').innerHTML=`<div class="card"><div class="toolbar"><div><h2>💬 Chat LSD</h2><div class="small">Messages, photos, vidéos, partage et appel.</div></div><div class="callbar"><button class="btn" onclick="toggleChatMenu()">☰ Menu</button><button class="btn" onclick="startVoiceCall()">📞 Appel</button><button class="btn" onclick="startVideoCall()">🎥 Appel vidéo</button><button class="btn" onclick="toggleShareList()">↗ Partager</button></div><div id="chatMenu" class="chatmenu" style="display:none"><button class="btn" onclick="deleteChat()">Supprimer</button><button class="btn" onclick="clearChat()">Nettoyer</button><button class="btn" onclick="editChatProfile()">Modifier</button><button class="btn" onclick="showChatAccount()">Compte</button><button class="btn" onclick="disconnectChatAccount()">Déconnexion compte</button><button class="btn" onclick="publishAnnouncement()">Annonce</button><button class="btn" onclick="showChatProfile()">Profil / présence</button></div></div><div class="chatbox"><div class="card"><h3>Participants</h3><div id="chatPresence" class="small">🔴 Non connecté</div><input id="chatName" placeholder="Votre nom" value="${esc(localStorage.getItem('chatName')||'')}" required onchange="localStorage.setItem('chatName',this.value.trim())"><p class="small">Les messages sont synchronisés via Firestore.</p><video id="localCallVideo" class="callvideo" autoplay muted playsinline style="display:none"></video><video id="remoteCallVideo" class="callvideo" autoplay playsinline style="display:none"></video><audio id="remoteCallAudio" autoplay playsinline controls style="display:none;width:100%;margin-top:8px"></audio><div id="callPanel" style="display:none"><div class="callTitle" id="callTitle">📞 Appel en cours…</div><div class="callSub" id="callSub">Connexion sécurisée en préparation</div><div id="callDuration" style="font-size:18px;font-weight:900;margin-top:6px">⏱️ 00:00</div><div class="callControls"><button id="speakerBtn" onclick="toggleCallSpeaker()">🔊 Haut-parleur</button><button onclick="unlockCallAudio()">🔊 Activer le son</button><button id="micBtn" onclick="toggleCallMic()">🎙️ Micro actif</button><button id="camBtn" onclick="toggleCallCamera()">📷 Caméra</button><button id="shareCallBtn" onclick="shareCallScreen()">🖥️ Écran</button><button class="danger" onclick="endCall()">🔴 Raccrocher</button></div></div><div id="callStatus" class="small" style="margin-top:8px;font-weight:800"></div><button class="btn" style="margin-top:8px" onclick="endCall()">Terminer l'appel</button></div><div><div id="chatMessages" class="chatmessages"><div class="empty">Chargement des messages…</div></div><div class="chatinput"><textarea id="chatText" rows="2" placeholder="Écrire un message…"></textarea><button class="btn" style="background:var(--primary);color:#fff" onclick="sendChatMessage()">Envoyer</button><button class="btn" onclick="startVoiceMessage()">🎙️ Voice</button><button class="btn" onclick="sendSticker()">😊 Sticker</button></div><div class="toolbar" style="justify-content:flex-start;margin-top:8px"><button class="btn" onclick="toggleShareList()">↗ Partager</button><div id="shareList" class="sharelist"><button class="btn" onclick="shareScreen();hideShareList()"><span class="shareicon">🖥️</span><span><b>Écran</b><br><small>Partager votre écran</small></span></button><button class="btn" onclick="chooseChatMedia('image');hideShareList()"><span class="shareicon">🖼️</span><span><b>Image</b><br><small>Choisir une image</small></span></button><button class="btn" onclick="chooseChatMedia('video');hideShareList()"><span class="shareicon">🎬</span><span><b>Vidéo</b><br><small>Choisir une vidéo</small></span></button><button class="btn" onclick="shareTextChat();hideShareList()"><span class="shareicon">📝</span><span><b>Texte</b><br><small>Partager un texte</small></span></button></div><input id="chatMedia" type="file" accept="image/*,video/*" hidden onchange="sendChatMedia(this)"></div></div></div></div>`;initChat()}
+function salesChatPage(){
+document.getElementById('app').innerHTML=`
+<div class="meg-chat-shell">
+  <div class="meg-chat-card">
+    <aside class="meg-chat-sidebar">
+      <div class="meg-chat-search"><span>⌕</span><input id="chatSearch" placeholder="Rechercher un contact..." oninput="filterChatContacts(this.value)"></div>
+      <div class="meg-chat-side-title">Mes conversations</div>
+      <div id="chatContacts" class="meg-chat-contacts"><div class="empty">Chargement des contacts…</div></div>
+      <div class="meg-call-panel">
+        <div class="meg-call-title">📞 Appel en cours…</div>
+        <div class="meg-call-sub">🔒 Appel audio/vidéo sécurisé</div>
+        <div id="callMiniStatus" class="meg-call-mini">Aucun appel actif</div>
+        <div class="meg-call-grid">
+          <button onclick="toggleCallSpeaker()">🔊 Haut-parleur</button>
+          <button onclick="toggleCallMic()">🎙️ Micro actif</button>
+          <button onclick="toggleCallCamera()">📷 Caméra</button>
+          <button onclick="shareCallScreen()">🖥️ Écran</button>
+        </div>
+        <button class="meg-hangup" onclick="endCall()">☎ Raccrocher</button>
+      </div>
+    </aside>
+
+    <section class="meg-chat-main">
+      <div class="meg-chat-head">
+        <div class="meg-chat-person">
+          <div id="chatActiveAvatar" class="meg-avatar">M</div>
+          <div><div id="chatActiveName">Chat LSD</div><div id="chatActiveStatus"><span class="meg-dot"></span> En ligne</div></div>
+        </div>
+        <div class="meg-chat-head-actions">
+          <button title="Appel audio" aria-label="Appel audio" onclick="startVoiceCall()">📞</button>
+          <button title="Appel vidéo" aria-label="Appel vidéo" onclick="startVideoCall()">📹</button>
+          <button title="Partager l'écran" aria-label="Partager l'écran" onclick="shareScreen()">🖥️</button>
+          <button title="Plus" onclick="toggleChatMenu()">•••</button>
+        </div>
+        <div id="chatMenu" class="meg-chat-menu">
+          <button onclick="deleteChat()">🗑️ Supprimer</button>
+          <button onclick="clearChat()">🧹 Nettoyer</button>
+          <button onclick="editChatProfile()">✏️ Modifier le profil</button>
+          <button onclick="showChatAccount()">👤 Compte</button>
+          <button onclick="publishAnnouncement()">📢 Annonce</button>
+          <button onclick="showChatProfile()">🟢 Présence</button>
+          <button onclick="disconnectChatAccount()">↪ Déconnexion</button>
+        </div>
+      </div>
+
+      <div id="chatMessages" class="meg-chat-messages"><div class="empty">Chargement des messages…</div></div>
+
+      <div class="meg-chat-composer">
+        <button class="composer-icon" title="Emoji" onclick="insertChatEmoji()">☺</button>
+        <textarea id="chatText" rows="1" placeholder="Écrire un message…" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChatMessage()}"></textarea>
+        <button class="composer-icon" title="Joindre un fichier" onclick="chooseChatMedia('image')">📎</button>
+        <button class="composer-icon" title="Image" onclick="chooseChatMedia('image')">▧</button>
+        <button class="composer-icon" title="Micro" onclick="startChatVoiceInput()">🎙</button>
+        <button class="meg-send" title="Envoyer" onclick="sendChatMessage()">➤</button>
+      </div>
+      <input id="chatMedia" type="file" accept="image/*,video/*" hidden onchange="sendChatMedia(this)">
+
+      <div class="meg-chat-tools">
+        <button onclick="chooseChatMedia('image')">🖼️ Image</button>
+        <button onclick="chooseChatMedia('video')">🎬 Vidéo</button>
+        <button onclick="shareScreen()">🖥️ Écran</button>
+        <button onclick="shareTextChat()">📝 Texte</button>
+        <button onclick="publishAnnouncement()">📢 Annonce</button>
+        <button onclick="requestChatNotifications()">🔔 Notifications</button>
+      </div>
+      <div class="meg-chat-nav" aria-label="Navigation Chat">
+        <button onclick="goChatPublic()">💬 Conversation publique</button>
+        <button onclick="goChatAnnouncements()">📢 Annonces</button>
+        <button onclick="requestChatNotifications()">🔔 Notifications</button>
+      </div>
+
+      <div style="display:none"><input id="chatName" value="${esc(localStorage.getItem('chatName')||'')}" onchange="localStorage.setItem('chatName',this.value.trim())"></div>
+      <div id="callPanel" class="meg-call-overlay" aria-live="polite">
+        <div class="meg-call-window">
+          <div class="meg-call-window-head"><div><div id="callTitle" class="meg-call-window-title">📞 Appel en cours…</div><div id="callSub" class="small">Connexion sécurisée</div></div><button class="meg-call-close" onclick="endCall()" title="Fermer">×</button></div>
+          <div class="meg-call-stage">
+            <div id="callAvatar" class="meg-call-avatar">👤</div>
+            <video id="remoteCallVideo" class="meg-call-remote" autoplay playsinline></video>
+            <video id="localCallVideo" class="meg-call-local" autoplay muted playsinline></video>
+            <div id="callStatus" class="meg-call-status">Connexion…</div>
+          </div>
+          <audio id="remoteCallAudio" autoplay playsinline></audio>
+          <div class="meg-call-controls">
+            <button id="speakerBtn" onclick="toggleCallSpeaker()">🔊 Haut-parleur</button>
+            <button onclick="unlockCallAudio()">🔊 Activer le son</button>
+            <button id="micBtn" onclick="toggleCallMic()">🎙️ Micro actif</button>
+            <button id="camBtn" onclick="toggleCallCamera()">📹 Caméra active</button>
+            <button id="shareCallBtn" onclick="shareCallScreen()">🖥️ Écran</button>
+            <button class="danger" onclick="endCall()">🔴 Raccrocher</button>
+            <span id="callDuration" class="small" style="align-self:center;font-weight:800">⏱️ 00:00</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>`;
+initChat();
+updateChatActiveHeader();
+}
+
 let chatUnsub=null,peer=null,localStream=null,callDocId=null,privateChatUser=null,callUnsub=null,incomingCall=null;
 function chatKey(){const u=firebase.auth().currentUser;if(!u||!privateChatUser)return 'public';return [u.uid,privateChatUser.uid].sort().join('_')}
 function chatRef(){const c=firestore?.collection('lsd_chat');return privateChatUser?c.where('chatKey','==',chatKey()):c}
-async 
-let chatFirstSnapshot=true;
-let messageToneContext=null;
-function playMessageTone(){try{messageToneContext=messageToneContext||new (window.AudioContext||window.webkitAudioContext)();const o=messageToneContext.createOscillator(),g=messageToneContext.createGain();o.type='sine';o.frequency.setValueAtTime(880,messageToneContext.currentTime);o.frequency.exponentialRampToValueAtTime(1320,messageToneContext.currentTime+0.12);g.gain.setValueAtTime(0.0001,messageToneContext.currentTime);g.gain.exponentialRampToValueAtTime(0.16,messageToneContext.currentTime+0.02);g.gain.exponentialRampToValueAtTime(0.0001,messageToneContext.currentTime+0.28);o.connect(g);g.connect(messageToneContext.destination);o.start();o.stop(messageToneContext.currentTime+0.3);}catch(e){console.warn('Son notification bloqué',e)}}
-function notifyNewChatMessage(x){if(!x||x.uid===firebase.auth()?.currentUser?.uid)return;playMessageTone();if('Notification' in window&&Notification.permission==='granted'&&document.visibilityState!=='visible'){new Notification(x.name||'Nouveau message',{body:x.text|| (x.voiceUrl?'🎙️ Message vocal':x.sticker?'😊 Sticker':x.url?'📎 Média reçu':'Nouveau message'),icon:'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/firebase-logo.png'});}}
-
 async function initChat(){
  try{await firebaseReady;}catch(e){console.warn("Firebase non prêt:",e)}
  if(!firestore){const el=document.getElementById("chatMessages");if(el)el.innerHTML="<div class=\"empty\">Firebase ne répond pas. Vérifiez Internet puis rechargez la page.</div>";return;}
@@ -366,12 +916,9 @@ async function initChat(){
    chatUnsub&&chatUnsub();
    chatUnsub=chatRef().onSnapshot(s=>{
      const el=document.getElementById('chatMessages');if(!el)return;
-     const docs=s.docs.filter(d=>{const x=d.data();return privateChatUser?x.chatKey===chatKey():(!x.chatKey||x.chatKey==='public')}).sort((a,b)=>(a.data().createdAt?.toMillis?.()||0)-(b.data().createdAt?.toMillis?.()||0));
-     if(!chatFirstSnapshot){s.docChanges().filter(c=>c.type==='added').forEach(c=>notifyNewChatMessage(c.doc.data()));}
-     chatFirstSnapshot=false;
-     el.innerHTML=docs.map(d=>{const x=d.data();
+     const docs=s.docs.filter(d=>{const x=d.data();return privateChatUser?x.chatKey===chatKey():(!x.chatKey||x.chatKey==='public')}).sort((a,b)=>(a.data().createdAt?.toMillis?.()||0)-(b.data().createdAt?.toMillis?.()||0));el.innerHTML=docs.map(d=>{const x=d.data();
        if(x.announcement&&'Notification' in window&&Notification.permission==='granted'&&document.visibilityState!=='visible')new Notification('Annonce LSD',{body:x.text||''});
-       const mediaIcon=x.voiceUrl?'🎙️':x.sticker?'😊':x.url&&String(x.type||'').startsWith('video')?'🎬':x.url?'🖼️':''; const mediaHtml=x.voiceUrl?`<div class="mediaitem"><span class="mediaicon">🎙️</span><audio controls preload="metadata" src="${esc(x.voiceUrl)}"></audio></div>`:x.url&&String(x.type||'').startsWith('video')?`<div class="mediaitem"><span class="mediaicon">🎬</span><video src="${esc(x.url)}" controls playsinline preload="metadata"></video></div>`:x.url?`<div class="mediaitem"><span class="mediaicon">🖼️</span><img src="${esc(x.url)}" alt="Média envoyé" loading="lazy"></div>`:''; return `<div class="chatmsg ${x.uid===user.uid?'me':''}"><b>${esc(x.name||x.email?.split('@')[0]||'')}</b><div>${x.sticker?`<span class="sticker">${esc(x.sticker)}</span>`:x.text?esc(x.text):''}</div>${mediaHtml}<div class="small">${mediaIcon} ${x.createdAt?.toDate?x.createdAt.toDate().toLocaleString('fr-FR'):''}</div></div>`
+       return `<div class="chatmsg ${x.uid===user.uid?'me':''}"><b>${esc(x.name||x.email?.split('@')[0]||'')}</b><div>${esc(x.text||'')}</div>${x.url?(x.type||'').startsWith('video')?`<video src="${esc(x.url)}" controls></video>`:`<img src="${esc(x.url)}" alt="média">`:''}<div class="small">${x.createdAt?.toDate?x.createdAt.toDate().toLocaleString('fr-FR'):''}</div></div>`
      }).join('')||'<div class="empty">Aucun message.</div>';
      el.scrollTop=el.scrollHeight;
    },e=>{const el=document.getElementById('chatMessages');if(el)el.innerHTML='<div class="empty">Impossible de charger les messages. Connectez votre compte Firebase.</div>';console.error(e)});
@@ -381,8 +928,13 @@ async function initChat(){
    if(firebase.auth().currentUser)start(firebase.auth().currentUser);
  }else start(null);
 }
+function filterChatContacts(term){const q=(term||'').toLowerCase().trim();document.querySelectorAll('#chatContacts .meg-contact').forEach(e=>{e.style.display=(!q||e.dataset.search.includes(q))?'flex':'none';});}
+function updateChatActiveHeader(){const n=privateChatUser?.name||'Chat LSD';const nameEl=document.getElementById('chatActiveName');if(nameEl)nameEl.textContent=n;const av=document.getElementById('chatActiveAvatar');if(av)av.textContent=(n||'M').trim().charAt(0).toUpperCase();}
+function insertChatEmoji(){const e=document.getElementById('chatText');if(!e)return;e.value+=(e.value?' ':'')+'😊';e.focus();}
+function startChatVoiceInput(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR)return alert('La dictée vocale n’est pas disponible sur ce navigateur.');const r=new SR();r.lang='fr-FR';r.interimResults=false;r.onresult=e=>{const t=document.getElementById('chatText');if(t){t.value+=(t.value?' ':'')+e.results[0][0].transcript;t.focus();}};r.onerror=()=>{};r.start();}
+function renderChatContacts(others){const el=document.getElementById('chatContacts');if(!el)return;const current=privateChatUser?.uid||'';if(!others.length){el.innerHTML='<div class="empty">Aucun autre utilisateur en ligne.</div>';return;}el.innerHTML=others.map(x=>{const label=chatProfileName(x)||'Utilisateur';const active=x.uid===current?' active':'';const search=(label+' '+(x.email||'')).toLowerCase().replace(/"/g,'&quot;');return `<button class="meg-contact${active}" data-search="${search}" onclick="openPrivateChat('${x.uid}','${esc(label).replace(/'/g,"\\'")}','${esc(x.email||'').replace(/'/g,"\\'")}')"><span class="meg-avatar">${esc(label.charAt(0).toUpperCase())}</span><span style="min-width:0;flex:1"><span class="meg-contact-name">${esc(label)}</span><span class="meg-contact-status"><span class="meg-dot"></span>En ligne</span></span><span class="meg-contact-time">En ligne</span></button>`;}).join('');filterChatContacts(document.getElementById('chatSearch')?.value||'');}
 function openPrivateChat(uid,name,email){privateChatUser={uid,name,email};const h=document.querySelector('#chatPresence');if(h)h.innerHTML='🔒 Conversation privée avec <b>'+esc(name)+'</b> <button class="btn" onclick="closePrivateChat()">Retour public</button>';initChat()}
-function closePrivateChat(){privateChatUser=null;initChat()}
+function closePrivateChat(){privateChatUser=null;updateChatActiveHeader();initChat()}
 function chatUserName(user){const saved=(localStorage.getItem('chatName')||'').trim();const display=(user?.displayName||'').trim();const email=(user?.email||'').trim();const fallback='';return (saved&&saved.toUpperCase()!=='SV'?saved:display&&display.toUpperCase()!=='SV'?display:fallback)||'';}
 function chatProfileName(x){const n=(x?.name||'').trim();if(n&&n.toUpperCase()!=='SV')return n;const e=(x?.email||'').trim();return e?e.split('@')[0]:'';}
 function chatMeta(user){return {uid:user.uid,email:user.email||'',name:chatUserName(user),toUid:privateChatUser?.uid||null,chatKey:chatKey()}}
@@ -392,14 +944,12 @@ async function sendChatMessage(){
    const user=firebase.auth&&firebase.auth().currentUser;
    if(!user)return alert('Connectez votre compte Chat avant d’envoyer un message.');
    const name=chatUserName(user);if(!name)return alert('Veuillez saisir obligatoirement votre nom dans le champ Votre nom ou dans Compte.');const text=document.getElementById('chatText').value.trim();if(!text)return;
-   await firestore.collection('lsd_chat').add({...chatMeta(user),text,createdAt:firebase.firestore.FieldValue.serverTimestamp(),readBy:[]});
+   await firestore.collection('lsd_chat').add({...chatMeta(user),text,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
    document.getElementById('chatText').value='';
  }catch(e){console.error(e);alert('Envoi impossible : '+(e.message||'Vérifiez la connexion et les règles Firestore.'));}
 }
 async function sendChatMedia(input){const f=input.files[0];if(!f)return;const msg='Fichier à partager : '+f.name;if(navigator.share&&navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({title:'Partage Chat LSD',text:msg,files:[f]});}catch(e){}}else{const url=URL.createObjectURL(f);const a=document.createElement('a');a.href=url;a.download=f.name;a.click();URL.revokeObjectURL(url);alert('Firebase Storage n’est pas activé. Le fichier a été préparé localement : partagez-le directement dans votre application de messagerie.');}input.value=''}
 
-async function sendSticker(){const user=firebase.auth&&firebase.auth().currentUser;if(!user)return alert('Connectez votre compte.');const stickers=['😀','😂','❤️','👍','🙏','🔥','🎉','😢','😍','👏'];const sticker=prompt('Choisissez un sticker : '+stickers.join(' '));if(!sticker||!stickers.includes(sticker))return;await firestore.collection('lsd_chat').add({...chatMeta(user),sticker,createdAt:firebase.firestore.FieldValue.serverTimestamp(),readBy:[]});}
-let voiceRecorder=null,voiceChunks=[];async function startVoiceMessage(){try{const user=firebase.auth&&firebase.auth().currentUser;if(!user)return alert('Connectez votre compte.');if(!navigator.mediaDevices?.getUserMedia||!window.MediaRecorder)return alert('Messages vocaux non pris en charge.');if(voiceRecorder){voiceRecorder.stop();return;}const stream=await navigator.mediaDevices.getUserMedia({audio:true});voiceChunks=[];voiceRecorder=new MediaRecorder(stream);voiceRecorder.ondataavailable=e=>{if(e.data.size)voiceChunks.push(e.data)};voiceRecorder.onstop=async()=>{stream.getTracks().forEach(t=>t.stop());const blob=new Blob(voiceChunks,{type:'audio/webm'});const url=URL.createObjectURL(blob);await firestore.collection('lsd_chat').add({...chatMeta(user),text:'🎙️ Message vocal',voiceUrl:url,createdAt:firebase.firestore.FieldValue.serverTimestamp(),readBy:[]});voiceRecorder=null;alert('Message vocal ajouté localement. Pour le rendre disponible à tous, activez Firebase Storage.');};voiceRecorder.start();alert('Enregistrement en cours. Appuyez encore sur Voice pour arrêter.');}catch(e){alert('Microphone indisponible : '+e.message)}}
 function toggleChatMenu(){const e=document.getElementById('chatMenu');if(e)e.style.display=e.style.display==='none'?'flex':'none'}
 async function deleteChat(){try{const user=firebase.auth&&firebase.auth().currentUser;if(!user)return alert('Connectez votre compte Firebase.');if(!confirm(privateChatUser?'Supprimer cette conversation privée ?':'Supprimer vos messages publics ?'))return;let q=firestore.collection('lsd_chat');q=privateChatUser?q.where('chatKey','==',chatKey()):q.where('uid','==',user.uid).where('chatKey','==','public');const snap=await q.get();let b=firestore.batch(),n=0;for(const d of snap.docs){b.delete(d.ref);if(++n===450){await b.commit();b=firestore.batch();n=0}}if(n)await b.commit();alert('Suppression terminée.')}catch(e){console.error(e);alert('Suppression impossible : '+(e.message||e))}}
 async function clearChat(){try{const user=firebase.auth&&firebase.auth().currentUser;if(!user)return alert('Connectez votre compte Firebase.');if(!confirm(privateChatUser?'Nettoyer cette conversation privée ?':'Nettoyer vos messages publics ?'))return;let q=firestore.collection('lsd_chat');q=privateChatUser?q.where('chatKey','==',chatKey()):q.where('uid','==',user.uid).where('chatKey','==','public');const snap=await q.get();let b=firestore.batch(),n=0;for(const d of snap.docs){b.delete(d.ref);if(++n===450){await b.commit();b=firestore.batch();n=0}}if(n)await b.commit();alert('Nettoyage terminé.')}catch(e){console.error(e);alert('Nettoyage impossible : '+(e.message||e))}}
@@ -468,7 +1018,7 @@ async function showChatProfile(){
    if(el)el.innerHTML=privateChatUser?'🔒 Conversation privée avec <b>'+esc(privateChatUser.name)+'</b> <button class="btn" onclick="closePrivateChat()">Retour public</button>':'🟢 En ligne : '+esc(name);
    if(presenceUnsub)presenceUnsub();
    presenceUnsub=firestore.collection('lsd_presence').where('online','==',true).onSnapshot(s=>{
-     const others=s.docs.filter(d=>d.id!==user.uid).map(d=>{const x=d.data();const label=esc(chatProfileName(x));return '<button class="btn" style="margin:4px 4px 0 0" onclick="openPrivateChat(\''+x.uid+'\',\''+label.replace(/'/g,'\\\'')+'\',\''+(x.email||'')+'\')">👤 '+label+'</button>'});
+     const others=s.docs.filter(d=>d.id!==user.uid).map(d=>d.data());renderChatContacts(others);
      const onlineText=(privateChatUser?'🔒 Conversation privée avec <b>'+esc(privateChatUser.name)+'</b> <button class="btn" onclick="closePrivateChat()">Retour public</button><br>':'🟢 Vous êtes en ligne : '+esc(name)+'<br>')+(others.length?'👥 Cliquez sur un nom pour écrire en privé :<br>'+others.join(''):'👥 Aucun autre utilisateur en ligne');
      if(el)el.innerHTML=onlineText;
    },e=>{console.error('Lecture présence:',e);if(el)el.textContent='🟢 En ligne : '+name+' (liste indisponible)';});
@@ -489,17 +1039,17 @@ function updateCallDuration(){const e=document.getElementById('callDuration');if
 function startCallDuration(){if(callStartedAt)return;callStartedAt=Date.now();updateCallDuration();if(callStatusTimer)clearInterval(callStatusTimer);callStatusTimer=setInterval(updateCallDuration,1000);}
 function stopCallDuration(){if(callStatusTimer){clearInterval(callStatusTimer);callStatusTimer=null;}callStartedAt=null;updateCallDuration();}
 function setCallStatus(t){const e=document.getElementById('callStatus');if(e)e.textContent=t||'';}
-function updateCallPanel(){const p=document.getElementById('callPanel');if(!p)return;p.style.display=callDocId?'block':'none';const title=document.getElementById('callTitle');const sub=document.getElementById('callSub');if(title)title.textContent='📞 '+(privateChatUser?.name||'Appel')+' — '+(callStatusText||'Appel en cours…');if(sub)sub.textContent='🔒 Appel audio/vidéo sécurisé';}
+function updateCallPanel(){const p=document.getElementById('callPanel');if(!p)return;if(callDocId){p.classList.add('open');}else{p.classList.remove('open');}const title=document.getElementById('callTitle');const sub=document.getElementById('callSub');if(title)title.textContent='📞 '+(privateChatUser?.name||'Appel')+' — '+(callStatusText||'Appel en cours…');if(sub)sub.textContent='🔒 Appel audio/vidéo sécurisé';}
 let callStatusText='';
 const _setCallStatus=setCallStatus;setCallStatus=function(t){callStatusText=t||'';if(/appel connecté|son connecté|son activé|bidirectionnel actif/i.test(t||''))startCallDuration();_setCallStatus(t);updateCallPanel();};
 function toggleCallMic(){const t=localStream?.getAudioTracks?.()[0];if(!t)return alert('Microphone indisponible.');t.enabled=!t.enabled;const b=document.getElementById('micBtn');if(b)b.textContent=t.enabled?'🎙️ Micro actif':'🔇 Micro coupé';}
-function toggleCallCamera(){const t=localStream?.getVideoTracks?.()[0];if(!t)return alert('Caméra indisponible pour cet appel.');t.enabled=!t.enabled;const b=document.getElementById('camBtn');if(b)b.textContent=t.enabled?'📷 Caméra active':'🚫 Caméra coupée';}
+function toggleCallCamera(){const t=localStream?.getVideoTracks?.()[0];if(!t)return alert('La caméra n’est pas disponible pour cet appel audio. Lancez un appel vidéo pour l’utiliser.');t.enabled=!t.enabled;const b=document.getElementById('camBtn');if(b)b.textContent=t.enabled?'📹 Caméra active':'🚫 Caméra coupée';}
 function toggleCallSpeaker(){const a=document.getElementById('remoteCallAudio'),v=document.getElementById('remoteCallVideo');const on=!(a?.dataset.speaker==='on');[a,v].forEach(x=>{if(x){x.dataset.speaker=on?'on':'off';x.volume=on?1:.35;}});const b=document.getElementById('speakerBtn');if(b)b.textContent=on?'🔊 Haut-parleur':'🔈 Écouteur';}
 async function shareCallScreen(){if(!peer||!navigator.mediaDevices?.getDisplayMedia)return alert('Partage d’écran indisponible.');try{const s=await navigator.mediaDevices.getDisplayMedia({video:true});const track=s.getVideoTracks()[0];const sender=peer.getSenders().find(x=>x.track?.kind==='video');if(sender)await sender.replaceTrack(track);track.onended=()=>{const cam=localStream?.getVideoTracks?.()[0];if(sender&&cam)sender.replaceTrack(cam);};}catch(e){alert('Partage d’écran annulé : '+(e.message||e));}}
 
 function stopCallRing(){if(callRingTimer){clearInterval(callRingTimer);callRingTimer=null;}if(callAudioCtx){try{callAudioCtx.close()}catch(e){}callAudioCtx=null;}}
 function ringCall(){stopCallRing();try{const C=window.AudioContext||window.webkitAudioContext;if(!C)return;callAudioCtx=new C();const beep=()=>{const o=callAudioCtx.createOscillator(),g=callAudioCtx.createGain();o.frequency.value=880;g.gain.value=.08;o.connect(g);g.connect(callAudioCtx.destination);o.start();setTimeout(()=>{try{o.stop()}catch(e){}},450)};beep();callRingTimer=setInterval(beep,1400);}catch(e){console.warn('Sonnerie indisponible',e)}}
-function clearCallMedia(){if(localStream)localStream.getTracks().forEach(t=>t.stop());localStream=null;if(peer){try{peer.close()}catch(e){}}peer=null;callCandidateUnsubs.forEach(fn=>{try{if(typeof fn==='function')fn()}catch(e){}});callCandidateUnsubs=[];['localCallVideo','remoteCallVideo','remoteCallAudio'].forEach(id=>{const el=document.getElementById(id);if(el){el.srcObject=null;el.style.display='none';}});}
+function clearCallMedia(){if(localStream)localStream.getTracks().forEach(t=>t.stop());localStream=null;if(peer){try{peer.close()}catch(e){}}peer=null;callCandidateUnsubs.forEach(fn=>{try{if(typeof fn==='function')fn()}catch(e){}});callCandidateUnsubs=[];['localCallVideo','remoteCallVideo','remoteCallAudio'].forEach(id=>{const el=document.getElementById(id);if(el){el.srcObject=null;el.style.display=(id==='remoteCallAudio'?'none':'');}});}
 function ensureRemoteAudio(){
  let audio=document.getElementById('remoteCallAudio');
  if(!audio){
@@ -538,9 +1088,7 @@ async function flushRemoteIceCandidates(){
 function setupPeer(video){
  peer=new RTCPeerConnection({iceServers:[
   {urls:'stun:stun.l.google.com:19302'},
-  {urls:'stun:stun1.l.google.com:19302'},
-  // Remplacez ces valeurs par celles de votre fournisseur TURN.
-  {urls:'turn:YOUR_TURN_SERVER:3478',username:'YOUR_TURN_USERNAME',credential:'YOUR_TURN_PASSWORD'}
+  {urls:'stun:stun1.l.google.com:19302'}
  ]});
  const remoteStream=new MediaStream();
  const remoteAudioStream=new MediaStream();
@@ -588,6 +1136,11 @@ function setupPeer(video){
  return peer;
 }
 
+function openCallOverlay(){const p=document.getElementById('callPanel');if(p)p.classList.add('open');}
+function closeCallOverlay(){const p=document.getElementById('callPanel');if(p)p.classList.remove('open');}
+function goChatPublic(){privateChatUser=null;updateChatActiveHeader();initChat();}
+function goChatAnnouncements(){privateChatUser=null;updateChatActiveHeader();initChat();setTimeout(()=>{const el=document.getElementById('chatMessages');if(!el)return;const items=[...el.querySelectorAll('.chatmsg')];items.forEach(m=>{const txt=(m.textContent||'').toLowerCase();m.style.display=(txt.includes('annonce'))?'':'none';});},700);}
+async function requestChatNotifications(){try{if(!('Notification' in window))return alert('Les notifications ne sont pas prises en charge sur ce navigateur.');const p=await Notification.requestPermission();if(p==='granted')new Notification('MEGERS ACTIVITÉ',{body:'Les notifications du Chat sont activées.'});else alert('Les notifications restent désactivées.');}catch(e){alert('Impossible d’activer les notifications : '+(e.message||e));}}
 async function startCall(video){
  try{
   const user=firebase.auth&&firebase.auth().currentUser;
@@ -662,27 +1215,98 @@ async function endCall(remote){stopCallRing();stopCallDuration();if(callDocId&&f
 async function startVoiceCall(){await startCall(false)} async function startVideoCall(){await startCall(true)}
 
 function saleForm(i=-1){
- const action=i>=0?`updateSale(${i})`:`addSale()`;
- const x=i>=0&&db.sales[i]?db.sales[i]:{};
- document.getElementById("modalTitle").textContent=i>=0?"Modifier la vente LSD":"Nouvelle vente LSD";
- document.getElementById("modalBody").innerHTML=`<div class="formgrid">
- <label>Nom SV<input id="svname" placeholder="Nom du SV" value="${esc(x.nomSV||'')}"></label>
- <label>Numéro SV<input id="svnumber" placeholder="Numéro du SV" value="${esc(x.numeroSV||'')}"></label>
- <label>Statut<select id="svstatus"><option ${x.statut==='Nouveau'?'selected':''}>Nouveau</option><option ${x.statut==='Ancien'?'selected':''}>Ancien</option></select></label>
- <label>LSD<select id="svlsd"><option ${x.lsd==='LSD Meschac'?'selected':''}>LSD Meschac</option><option ${x.lsd==='LSD Thomas'?'selected':''}>LSD Thomas</option></select></label>
- <label>Référence<select id="svref"><option ${x.reference==='Cash'?'selected':''}>Cash</option><option ${x.reference==='Dette'?'selected':''}>Dette</option></select></label>
- <label>Date<input id="svdate" type="date" value="${esc(x.date||new Date().toISOString().slice(0,10))}"></label>
- <div class="seriesrow"><label>Série First<input id="svfirst" inputmode="numeric" value="${esc(x.first??'')}" oninput="updateSaleQty()"><div class="scanhelp">ICCID / code-barres</div></label><button class="scanicon" type="button" title="Scanner ICCID First" onclick="openNativeScanner('svfirst')">📷</button></div>
- <div class="seriesrow"><label>Série Last<input id="svlast" inputmode="numeric" value="${esc(x.last??'')}" oninput="updateSaleQty()"><div class="scanhelp">ICCID / code-barres</div></label><button class="scanicon" type="button" title="Scanner ICCID Last" onclick="openNativeScanner('svlast')">📷</button></div>
- <label>Quantité (SIM)<input id="svqty" readonly value="${esc(x.quantity??'')}"></label>
- <label class="wide">Commentaire<textarea id="svcomment" rows="2" placeholder="Commentaire">${esc(x.commentaire||'')}</textarea></label>
- </div>
- <div style="position:sticky;bottom:0;background:#fff;padding:14px 0 4px;border-top:1px solid var(--line);z-index:2">
-   <button class="btn" type="button" style="width:100%;background:var(--primary);color:#fff;font-size:17px;padding:13px" onclick="${action}">💾 ${i>=0?'Enregistrer les modifications':'Enregistrer la vente'}</button>
- </div>
- <div id="scannerBox" style="display:none;margin-top:12px"><div class="card" style="text-align:center"><div id="scanStatus" class="small">📷 Préparation du scanner…</div><div id="liveScanWrap" style="display:none;position:relative;margin-top:10px"><video id="liveScanVideo" playsinline autoplay muted style="width:100%;max-height:360px;border-radius:12px;background:#111;object-fit:cover"></video><div style="position:absolute;left:8%;right:8%;top:38%;height:24%;border:3px solid #fff;border-radius:14px;box-shadow:0 0 0 9999px rgba(0,0,0,.25);pointer-events:none"></div></div><button id="scanPhotoBtn" class="btn" type="button" style="margin-top:10px;display:none" onclick="document.getElementById('scanFile').click()">📷 Prendre une photo</button><button class="btn" type="button" style="margin-top:10px" onclick="document.getElementById('scanGallery').click()">🖼️ Choisir une photo</button><button class="btn" type="button" style="margin-top:10px" onclick="stopScanner()">Fermer</button><input id="scanFile" type="file" accept="image/*" capture="environment" hidden onchange="scanPhoto(this)"><input id="scanGallery" type="file" accept="image/*" hidden onchange="scanPhoto(this)"></div></div>`;
- document.getElementById("modal").classList.add("open");
- updateSaleQty();
+  const action=i>=0?`updateSale(${i})`:`addSale()`;
+  const x=i>=0&&db.sales[i]?db.sales[i]:{};
+  document.getElementById("modalTitle").textContent=i>=0?"Modifier la vente LSD":"Nouvelle vente LSD";
+  document.getElementById("modalBody").innerHTML=`
+  <div class="sale-form-corrected">
+    <label class="sale-field">Nom SV
+      <input id="svname" placeholder="Nom du SV" value="${esc(x.nomSV||'')}">
+    </label>
+
+    <label class="sale-field">Numéro SV
+      <input id="svnumber" placeholder="Numéro du SV" value="${esc(x.numeroSV||'')}">
+    </label>
+
+    <label class="sale-field">Statut
+      <select id="svstatus">
+        <option ${x.statut==='Nouveau'?'selected':''}>Nouveau</option>
+        <option ${x.statut==='Ancien'?'selected':''}>Ancien</option>
+      </select>
+    </label>
+
+    <label class="sale-field">LSD
+      <select id="svlsd">
+        <option ${x.lsd==='LSD Meschac'?'selected':''}>LSD Meschac</option>
+        <option ${x.lsd==='LSD Thomas'?'selected':''}>LSD Thomas</option>
+      </select>
+    </label>
+
+    <label class="sale-field">Référence
+      <select id="svref">
+        <option ${x.reference==='Cash'?'selected':''}>Cash</option>
+        <option ${x.reference==='Dette'?'selected':''}>Dette</option>
+      </select>
+    </label>
+
+    <label class="sale-field">Date
+      <input id="svdate" type="date" value="${esc(x.date||new Date().toISOString().slice(0,10))}">
+    </label>
+
+    <div class="sale-series">
+      <label class="sale-field">Série First
+        <div class="series-control">
+          <input id="svfirst" inputmode="numeric" value="${esc(x.first??'')}" oninput="updateSaleQty()" placeholder="Première série ICCID">
+          <button class="scanicon" type="button" title="Scanner ICCID First" onclick="openNativeScanner('svfirst')">📷</button>
+        </div>
+        <div class="scanhelp">ICCID / code-barres — détection automatique</div>
+      </label>
+    </div>
+
+    <div class="sale-series">
+      <label class="sale-field">Série Last
+        <div class="series-control">
+          <input id="svlast" inputmode="numeric" value="${esc(x.last??'')}" oninput="updateSaleQty()" placeholder="Dernière série ICCID">
+          <button class="scanicon" type="button" title="Scanner ICCID Last" onclick="openNativeScanner('svlast')">📷</button>
+        </div>
+        <div class="scanhelp">ICCID / code-barres — détection automatique</div>
+      </label>
+    </div>
+
+    <label class="sale-field quantity-field">Quantité (SIM)
+      <input id="svqty" readonly value="${esc(x.quantity??'')}" placeholder="Calculée automatiquement">
+    </label>
+
+    <label class="sale-field">Commentaire
+      <textarea id="svcomment" rows="3" placeholder="Commentaire">${esc(x.commentaire||'')}</textarea>
+    </label>
+
+    <div id="scannerBox" style="display:none">
+      <div class="card" style="text-align:center">
+        <div id="scanStatus" class="small">📷 Préparation du scanner…</div>
+        <div id="liveScanWrap" style="display:none;position:relative;margin-top:10px">
+          <video id="liveScanVideo" playsinline autoplay muted style="width:100%;max-height:360px;border-radius:16px;background:#111;object-fit:cover"></video>
+          <div style="position:absolute;left:8%;right:8%;top:38%;height:24%;border:3px solid #fff;border-radius:14px;box-shadow:0 0 0 9999px rgba(0,0,0,.25);pointer-events:none"></div>
+        </div>
+        <button id="scanPhotoBtn" class="btn" type="button" style="margin-top:10px;display:none" onclick="document.getElementById('scanFile').click()">📷 Prendre une photo</button>
+        <button class="btn" type="button" style="margin-top:10px" onclick="document.getElementById('scanGallery').click()">🖼️ Choisir une photo</button>
+        <button class="btn" type="button" style="margin-top:10px" onclick="stopScanner()">Fermer</button>
+        <input id="scanFile" type="file" accept="image/*" capture="environment" hidden onchange="scanPhoto(this)">
+        <input id="scanGallery" type="file" accept="image/*" hidden onchange="scanPhoto(this)">
+      </div>
+    </div>
+  </div>
+  <div class="sale-savebar">
+    <button class="sale-save" type="button" onclick="${action}">💾 ${i>=0?'Enregistrer les modifications':'Enregistrer la vente'}</button>
+  </div>`;
+
+  const modal=document.getElementById("modal");
+  modal.classList.add("sale-modal-corrected");
+  modal.classList.add("open");
+
+  const body=document.getElementById("modalBody");
+  if(body) body.scrollTop=0;
+  updateSaleQty();
 }
 function openSale(){saleForm(-1)}
 function editSale(i){if(!db.sales[i])return;saleForm(i)}
@@ -882,6 +1506,52 @@ main{max-width:1500px;margin:12px auto;padding:0 24px;}
 .callbar .btn.danger,.callbar button[onclick*="endCall"]{background:#ff4b55;color:#fff;}
 @media(max-width:760px){main{padding:0 10px}.chatbox{grid-template-columns:1fr}.chatmessages{height:360px}.mainmenu .mainitem{flex:1 1 42%;}}
 </style>
+
+<style id="sale-pc-position-fix">
+/* Positionnement professionnel de la fenêtre Nouvelle vente sur ordinateur */
+@media(min-width:561px){
+  #modal.sale-modal-corrected{
+    align-items:center !important;
+    justify-content:center !important;
+    padding:24px !important;
+  }
+  #modal.sale-modal-corrected .modalbox{
+    width:min(820px, calc(100vw - 48px)) !important;
+    max-width:820px !important;
+    height:min(88vh, 820px) !important;
+    max-height:88vh !important;
+    padding:0 !important;
+    display:flex !important;
+    flex-direction:column !important;
+    overflow:hidden !important;
+    margin:auto !important;
+  }
+  #modal.sale-modal-corrected .modalhead{
+    flex:0 0 auto !important;
+    min-height:72px !important;
+    padding:18px 24px !important;
+    border-bottom:1px solid #e4eaf2 !important;
+    background:#fff !important;
+  }
+  #modal.sale-modal-corrected #modalBody{
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+    padding:22px 24px 18px !important;
+  }
+  #modal.sale-modal-corrected .sale-savebar{
+    position:sticky !important;
+    bottom:0 !important;
+    z-index:100 !important;
+    margin:0 -24px -18px !important;
+    padding:14px 24px 18px !important;
+  }
+  #modal.sale-modal-corrected .sale-save{
+    max-width:100% !important;
+  }
+}
+</style>
 </head><body><div class="head"><div><div class="logo">ETS MEGERS</div><div>LSD MESCHAC DIAMBUANA</div></div><div>Date : ${esc(x.date)}</div></div><div class="title">FACTURE DE VENTE LSD</div><div class="box"><b>SV :</b> ${esc(x.nomSV)}<br><b>Numéro SV :</b> ${esc(x.numeroSV)}<br><b>Statut :</b> ${esc(x.statut)}<br><b>LSD :</b> ${esc(x.lsd)}<br><b>Référence :</b> ${esc(x.reference)}</div><table><tr><th>Série First</th><th>Série Last</th><th>Quantité</th></tr><tr><td>${esc(x.first)}</td><td>${esc(x.last)}</td><td>${x.quantity} SIM</td></tr></table><div class="total">Total : ${x.quantity} SIM</div><div class="box"><b>Commentaire :</b><br>${esc(x.commentaire||"—")}</div><div class="foot">Merci pour votre confiance.</div><p style="text-align:center"><button onclick="window.print()">Imprimer / Enregistrer en PDF</button></p></body></html>`);w.document.close();}
 function stockPage(){
  const stockIn=Number(db.stockIn||0);
@@ -968,7 +1638,7 @@ function usdSalePage(){document.getElementById("app").innerHTML=`<div class="car
 function settingsPage(){
  document.getElementById("app").innerHTML=`<div class="card"><h2>Paramètres</h2><div class="formgrid"><label>Nom de l'activité<input id="biz" value="${esc(db.business)}"></label><label>Taux FC / USD<input id="sr" type="number" value="${db.currencyRate}"></label><label>Capital FC<input id="cap" type="number" value="${db.capital}"></label><label>Marchand 1<input id="m1" value="${esc(db.merchant1)}"></label><label>Montant marchand 1<input id="m1a" type="number" value="${db.merchant1Amount}"></label><label>Marchand 2<input id="m2" value="${esc(db.merchant2)}"></label></div><br><button class="btn" style="background:var(--primary);color:#fff" onclick="db.business=biz.value;db.currencyRate=+sr.value;db.capital=+cap.value;db.merchant1=m1.value;db.merchant1Amount=+m1a.value;db.merchant2=m2.value;save()">Enregistrer</button><hr style="border:0;border-top:1px solid var(--line);margin:22px 0"><button class="btn" onclick="if(confirm('Réinitialiser les données ?')){db=normalizeDB(INITIAL);save()}">Réinitialiser la base initiale</button></div>`;
 }
-function closeModal(){document.getElementById("modal").classList.remove("open");}
+function closeModal(){document.getElementById("modal").classList.remove("open","sale-modal-corrected");}
 function exportData(){
  const blob=new Blob([JSON.stringify(db,null,2)],{type:"application/json"}); const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="gestion-lsd-sauvegarde.json";a.click();URL.revokeObjectURL(a.href);
 }
@@ -982,30 +1652,11 @@ function exportCSV(){
 function importData(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{db=JSON.parse(r.result);save();alert("Sauvegarde restaurée.");}catch{alert("Fichier invalide.");}};r.readAsText(f);}
 
 const AUTH_USER="LSD MESCHAC", AUTH_PASS="Intelligente225@";
-const HIST_DB="GestionLSD_Historique", HIST_STORE="jours", HIST_KEY="gestion_lsd_history_v2";
-let histDB=null, historyMode="local";
-function localHistory(){try{return JSON.parse(localStorage.getItem(HIST_KEY)||"[]")}catch(e){return []}}
-function writeLocalHistory(rows){try{localStorage.setItem(HIST_KEY,JSON.stringify(rows));return true}catch(e){console.error("Historique local impossible",e);return false}}
-function openHistDB(){return new Promise((resolve)=>{
-  if(!window.indexedDB){historyMode="local";return resolve();}
-  let settled=false; const finish=()=>{if(!settled){settled=true;resolve();}};
-  try{const r=indexedDB.open(HIST_DB,1);
-    r.onupgradeneeded=()=>{try{if(!r.result.objectStoreNames.contains(HIST_STORE))r.result.createObjectStore(HIST_STORE,{keyPath:"date"})}catch(e){historyMode="local"}};
-    r.onsuccess=()=>{histDB=r.result;historyMode="indexeddb";finish()};
-    r.onerror=()=>{historyMode="local";finish()}; r.onblocked=()=>{historyMode="local";finish()};
-  }catch(e){historyMode="local";finish()}
-})}
-function snapshot(){
- const date=new Date().toISOString().slice(0,10), d=total(db.debts),l=total(db.deliveries),sr=Number(db.pending||0)-l;
- const salesQty=(db.sales||[]).filter(x=>x.date===date).reduce((a,x)=>a+Number(x.quantity||0),0);
- const rec={date,stockIn:Number(db.stockIn||0),pending:Number(db.pending||0),simLivrer:l,stockRestant:sr,dettes:d,ventesLSD:salesQty,capital:Number(db.capital||0),valeurStockIn:Number(db.stockIn||0)*Number(db.unitPrice||0),valeurDette:d*Number(db.unitPrice||0),marchand1:Number(db.merchant1Amount||0),difference:Number(db.capital||0)-(sr*Number(db.unitPrice||0)+d*Number(db.unitPrice||0)+Number(db.merchant1Amount||0))};
- if(historyMode==="indexeddb"&&histDB){try{histDB.transaction(HIST_STORE,"readwrite").objectStore(HIST_STORE).put(rec);return}catch(e){historyMode="local"}}
- const rows=localHistory().filter(x=>x.date!==date);rows.push(rec);writeLocalHistory(rows);
-}
-function allHistory(){return new Promise((resolve,reject)=>{
- if(historyMode!=="indexeddb"||!histDB)return resolve(localHistory());
- try{const r=histDB.transaction(HIST_STORE).objectStore(HIST_STORE).getAll();r.onsuccess=()=>resolve(r.result||[]);r.onerror=()=>resolve(localHistory())}catch(e){resolve(localHistory())}
-})}
+const HIST_DB="GestionLSD_Historique", HIST_STORE="jours";
+let histDB=null;
+function openHistDB(){return new Promise((resolve,reject)=>{const r=indexedDB.open(HIST_DB,1);r.onupgradeneeded=()=>{if(!r.result.objectStoreNames.contains(HIST_STORE))r.result.createObjectStore(HIST_STORE,{keyPath:"date"})};r.onsuccess=()=>{histDB=r.result;resolve()};r.onerror=()=>reject(r.error)})}
+function snapshot(){if(!histDB)return;const date=new Date().toISOString().slice(0,10);const d=total(db.debts),l=total(db.deliveries),sr=Number(db.pending||0)-l;const salesQty=(db.sales||[]).filter(x=>x.date===date).reduce((a,x)=>a+Number(x.quantity||0),0);const rec={date,stockIn:Number(db.stockIn||0),pending:Number(db.pending||0),simLivrer:l,stockRestant:sr,dettes:d,ventesLSD:salesQty,capital:Number(db.capital||0),valeurStockIn:Number(db.stockIn||0)*Number(db.unitPrice||0),valeurDette:d*Number(db.unitPrice||0),marchand1:Number(db.merchant1Amount||0),difference:Number(db.capital||0)-(sr*Number(db.unitPrice||0)+d*Number(db.unitPrice||0)+Number(db.merchant1Amount||0))};histDB.transaction(HIST_STORE,"readwrite").objectStore(HIST_STORE).put(rec)}
+function allHistory(){return new Promise((resolve,reject)=>{const r=histDB.transaction(HIST_STORE).objectStore(HIST_STORE).getAll();r.onsuccess=()=>resolve(r.result||[]);r.onerror=()=>reject(r.error)})}
 const oldSave=save; save=async function(){await oldSave();snapshot()};
 function doLogin(){
  const userEl=document.getElementById("loginUser");
@@ -1013,68 +1664,27 @@ function doLogin(){
  const screen=document.getElementById("loginScreen");
  const appEl=document.getElementById("mainApp");
  const errorEl=document.getElementById("loginError");
- const username=(userEl?.value||"").trim().replace(/\s+/g," ");
+ const username=(userEl?.value||"").trim();
  const password=passEl?.value||"";
  if(errorEl) errorEl.textContent="";
- const validUsers=["LSD MESCHAC","LSDMESCHAC","MESCHAC","ADMIN"];
- const validPasswords=["Intelligente225@","Intelligente225","Intelligente225@ "];
- const okUser=validUsers.some(u=>u.toLowerCase()===username.toLowerCase());
- const okPass=validPasswords.includes(password);
- if(okUser&&okPass){
-  localStorage.setItem("lsd_auth","1");
+ if(username===AUTH_USER&&password===AUTH_PASS){
+  sessionStorage.setItem("lsd_auth","1");
   if(screen) screen.style.display="none";
   if(appEl) appEl.style.display="block";
-  try{render();}catch(e){console.error(e);if(errorEl)errorEl.textContent="Connexion réussie, mais chargement impossible : "+e.message;}
- }else if(errorEl){
-  errorEl.textContent="Identifiants incorrects. Nom : LSD MESCHAC | Mot de passe : Intelligente225@";
+  try{render();}catch(e){console.error("Erreur ouverture application:",e);if(errorEl)errorEl.textContent="Connexion réussie, mais l’application ne peut pas se charger. Rechargez la page.";}
+ }else{
+  if(errorEl) errorEl.textContent="Nom d’utilisateur ou mot de passe incorrect.";
  }
 }
 
-function doLogout(){localStorage.removeItem("lsd_auth");location.reload()}
-function historyPage(){allHistory().then(rows=>{
- rows.sort((a,b)=>a.date.localeCompare(b.date));
- const escH=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
- const today=new Date().toISOString().slice(0,10);
- const defaultFrom=rows.length?rows[0].date:'';
- const renderHistory=()=>{
-   const from=document.getElementById('fromDate')?.value||'';
-   const to=document.getElementById('toDate')?.value||'';
-   const filtered=rows.filter(r=>(!from||r.date>=from)&&(!to||r.date<=to));
-   const totalV=filtered.reduce((a,r)=>a+Number(r.ventesLSD||0),0);
-   const totalIn=filtered.reduce((a,r)=>a+Number(r.stockIn||0),0);
-   const totalLiv=filtered.reduce((a,r)=>a+Number(r.simLivrer||0),0);
-   const body=document.getElementById('historyBody');
-   const count=document.getElementById('historyCount');
-   const period=document.getElementById('historyPeriod');
-   if(count)count.textContent=filtered.length+' jour(s) trouvé(s)';
-   if(period)period.textContent=(from||'Début')+' → '+(to||'Aujourd’hui');
-   if(body)body.innerHTML=filtered.length?filtered.slice().reverse().map(r=>`<tr><td>${escH(r.date)}</td><td>${Number(r.ventesLSD||0)} SIM</td><td>${Number(r.stockIn||0)} SIM</td><td>${Number(r.pending||0)} SIM</td><td>${Number(r.simLivrer||0)} SIM</td><td>${Number(r.stockRestant||0)} SIM</td><td>${Number(r.dettes||0)} SIM</td><td>${money(Number(r.difference||0))}</td></tr>`).join(''):`<tr><td colspan="8"><div class="empty">Aucune donnée pour cette période.</div></td></tr>`;
-   document.getElementById('periodMetrics').innerHTML=`${metric('Ventes de la période',totalV+' SIM','Total des ventes LSD')}${metric('Stock IN cumulé',totalIn+' SIM','Entrées enregistrées')}${metric('SIM à livrer',totalLiv+' SIM','Total de la période')}${metric('Jours enregistrés',filtered.length,'Lignes historiques')}`;
- };
- app.innerHTML=`<div class="card summary-card">
- <div class="toolbar"><div><h2>Base de données — Historique périodique</h2><div class="small">Consultez l’historique par jour, semaine, mois ou toute période personnalisée.</div></div><button class="btn" style="background:var(--primary);color:#fff" onclick="exportPeriod()">📊 Extraire Excel</button></div>
- <div class="summaryfilters"><label>Du<input id="fromDate" type="date" value="${escH(defaultFrom)}" onchange="renderHistoryPeriod()"></label><label>Au<input id="toDate" type="date" value="${escH(today)}" onchange="renderHistoryPeriod()"></label><button class="btn" onclick="setHistoryPeriod('day')">Aujourd’hui</button><button class="btn" onclick="setHistoryPeriod('week')">7 jours</button><button class="btn" onclick="setHistoryPeriod('month')">Mois</button><button class="btn" onclick="setHistoryPeriod('all')">Tout</button></div>
- <div class="toolbar" style="margin-top:12px"><div class="small" id="historyPeriod"></div><div class="small" id="historyCount"></div></div>
- <div class="grid" id="periodMetrics"></div>
- <div class="tablewrap" style="margin-top:12px"><table class="table"><thead><tr><th>Date</th><th>Ventes LSD</th><th>Stock IN</th><th>Pending</th><th>SIM à livrer</th><th>Stock restant</th><th>Dette</th><th>Différence</th></tr></thead><tbody id="historyBody"></tbody></table></div></div>`;
- window._historyRows=rows;renderHistory();
- }).catch(e=>{app.innerHTML='<div class="card"><h2>Historique</h2><div class="empty">Impossible de charger l’historique. Les données locales restent protégées.</div></div>';console.error(e)})}
-function renderHistoryPeriod(){
- const rows=window._historyRows||[];const from=document.getElementById('fromDate')?.value||'';const to=document.getElementById('toDate')?.value||'';
- const filtered=rows.filter(r=>(!from||r.date>=from)&&(!to||r.date<=to));
- const body=document.getElementById('historyBody');if(!body)return;
- body.innerHTML=filtered.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(r=>`<tr><td>${esc(r.date)}</td><td>${Number(r.ventesLSD||0)} SIM</td><td>${Number(r.stockIn||0)} SIM</td><td>${Number(r.pending||0)} SIM</td><td>${Number(r.simLivrer||0)} SIM</td><td>${Number(r.stockRestant||0)} SIM</td><td>${Number(r.dettes||0)} SIM</td><td>${money(Number(r.difference||0))}</td></tr>`).join('')||'<tr><td colspan="8"><div class="empty">Aucune donnée pour cette période.</div></td></tr>';
- document.getElementById('historyCount').textContent=filtered.length+' jour(s) trouvé(s)';document.getElementById('historyPeriod').textContent=(from||'Début')+' → '+(to||'Aujourd’hui');
- document.getElementById('periodMetrics').innerHTML=`${metric('Ventes de la période',filtered.reduce((a,r)=>a+Number(r.ventesLSD||0),0)+' SIM','Total des ventes LSD')}${metric('Stock IN cumulé',filtered.reduce((a,r)=>a+Number(r.stockIn||0),0)+' SIM','Entrées enregistrées')}${metric('SIM à livrer',filtered.reduce((a,r)=>a+Number(r.simLivrer||0),0)+' SIM','Total de la période')}${metric('Jours enregistrés',filtered.length,'Lignes historiques')}`;
-}
-function setHistoryPeriod(mode){const now=new Date();const to=now.toISOString().slice(0,10);let from='';if(mode==='day')from=to;else if(mode==='week'){const d=new Date(now);d.setDate(d.getDate()-6);from=d.toISOString().slice(0,10)}else if(mode==='month')from=new Date(now.getFullYear(),now.getMonth(),1).toISOString().slice(0,10);document.getElementById('fromDate').value=from;document.getElementById('toDate').value=to;renderHistoryPeriod()}
-
+function doLogout(){sessionStorage.removeItem("lsd_auth");location.reload()}
+function historyPage(){allHistory().then(rows=>{rows.sort((a,b)=>a.date.localeCompare(b.date));app.innerHTML=`<div class="card"><div class="toolbar"><div><h2>Base de données — Historique quotidien</h2><div class="small">Une ligne est conservée pour chaque jour mis à jour.</div></div><button class="btn" style="background:var(--primary);color:#fff" onclick="exportPeriod()">📊 Extraire Excel</button></div><div class="formgrid"><label>Du<input id="fromDate" type="date"></label><label>Au<input id="toDate" type="date"></label></div><div class="tablewrap" style="margin-top:12px">${rows.length?`<table class="table"><thead><tr><th>Date</th><th>Ventes LSD</th><th>Stock IN</th><th>Pending</th><th>SIM à livrer</th><th>Stock restant</th><th>Dette</th><th>Différence</th></tr></thead><tbody>${rows.slice().reverse().map(r=>`<tr><td>${r.date}</td><td>${r.ventesLSD||0} SIM</td><td>${r.stockIn} SIM</td><td>${r.pending} SIM</td><td>${r.simLivrer} SIM</td><td>${r.stockRestant} SIM</td><td>${r.dettes} SIM</td><td>${money(r.difference)}</td></tr>`).join("")}</tbody></table>`:`<div class="empty">Aucun historique enregistré.</div>`}</div></div>`})}
 async function exportPeriod(){const rows=(await allHistory()).sort((a,b)=>a.date.localeCompare(b.date));const from=fromDate.value,to=toDate.value;const f=rows.filter(r=>(!from||r.date>=from)&&(!to||r.date<=to));if(!f.length)return alert("Aucune donnée dans cette période.");let t='<table border="1"><tr><th>Date</th><th>Ventes LSD (SIM)</th><th>Stock IN (SIM)</th><th>Pending (SIM)</th><th>SIM à livrer</th><th>Stock restant (SIM)</th><th>Dette (SIM)</th><th>Capital déclaré (FC)</th><th>Valeur Stock IN (FC)</th><th>Valeur dette (FC)</th><th>Valeur marchand 1 (FC)</th><th>Différence (FC)</th></tr>';f.forEach(r=>t+=`<tr><td>${r.date}</td><td>${r.ventesLSD||0}</td><td>${r.stockIn}</td><td>${r.pending}</td><td>${r.simLivrer}</td><td>${r.stockRestant}</td><td>${r.dettes}</td><td>${r.capital}</td><td>${r.valeurStockIn}</td><td>${r.valeurDette}</td><td>${r.marchand1}</td><td>${r.difference}</td></tr>`);t+='</table>';const blob=new Blob([`<html><meta charset="utf-8"><body><h2>Gestion LSD — ${from||f[0].date} au ${to||f.at(-1).date}</h2>${t}</body></html>`],{type:'application/vnd.ms-excel'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`Gestion_LSD_${from||f[0].date}_${to||f.at(-1).date}.xls`;a.click();URL.revokeObjectURL(a.href)}
 async function initAuth(){
- await openHistDB();
+ try{await openHistDB();}catch(e){console.warn("Historique indisponible:",e);}
  const screen=document.getElementById("loginScreen");
  const appEl=document.getElementById("mainApp");
- if(localStorage.getItem("lsd_auth")==="1"){
+ if(sessionStorage.getItem("lsd_auth")==="1"){
   if(screen)screen.style.display="none";
   if(appEl)appEl.style.display="block";
   try{render();}catch(e){console.error("Erreur de chargement:",e);}
@@ -1082,8 +1692,6 @@ async function initAuth(){
   if(appEl)appEl.style.display="none";
  }
 }
-document.getElementById("loginPass")?.addEventListener("keydown",e=>{if(e.key==="Enter")doLogin()});
-document.getElementById("loginUser")?.addEventListener("keydown",e=>{if(e.key==="Enter")document.getElementById("loginPass")?.focus()});
 firebaseReady=initFirebase().catch(e=>{console.error("Initialisation Firebase:",e);return null;});
 initAuth();
 </script>
